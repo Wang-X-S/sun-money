@@ -1,7 +1,7 @@
 <template>
-  <div>label
-  <Nav/>
-  </div>
+  <Layout>
+    <p>我是Labels</p>
+  </Layout>
 </template>
 
 <script>
