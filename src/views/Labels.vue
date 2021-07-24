@@ -1,10 +1,14 @@
 <template>
-  <div>label</div>
+  <div>label
+  <Nav/>
+  </div>
 </template>
 
 <script>
+
   export default {
-    name: "Labels"
+    name: "Labels",
+    components: {}
   }
 </script>
 
