@@ -1,5 +1,5 @@
 <template>
-  <div class="nav-wrapper">
+  <div class="layout-wrapper">
     <div class="content">
      <slot/>
     </div>
@@ -14,8 +14,7 @@
 </script>
 
 <style scoped>
-  .nav-wrapper{
-
+  .layout-wrapper{
     display:flex;
     flex-direction: column;
     height:100vh;
