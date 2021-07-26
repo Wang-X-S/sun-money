@@ -1,8 +1,26 @@
 <template>
-  <div>
-    <Layout>
+  <div >
+    <Layout class-prefix="layout">
+      <div>
+        <ul class="types">
+          <li class="selected">支出</li>
+          <li>收入</li>
+        </ul>
+      </div>
       <div class="tags">
         <ul class="current">
+          <li>衣</li>
+          <li>食</li>
+          <li>住</li>
+          <li>行</li>
+          <li>衣</li>
+          <li>食</li>
+          <li>住</li>
+          <li>行</li>
+          <li>衣</li>
+          <li>食</li>
+          <li>住</li>
+          <li>行</li>
           <li>衣</li>
           <li>食</li>
           <li>住</li>
@@ -18,12 +36,7 @@
           <input type="text" placeholder="在这里输入备注">
         </label>
       </div>
-      <div>
-        <ul class="types">
-          <li class="selected">支出</li>
-          <li>收入</li>
-        </ul>
-      </div>
+
       <div class="numberPad">
         <div class="output">100</div>
         <div class="buttons">
@@ -43,6 +56,7 @@
           <button>.</button>
         </div>
       </div>
+
     </Layout>
 
   </div>
@@ -55,14 +69,23 @@
     components: {}
   }
 </script>
-
+<style lang="scss">
+  .layout-content{
+    display:flex;
+    flex-direction: column;
+  }
+</style>
 <style lang="scss" scoped>
   @import '~@/assets/style/helper.scss';
   .tags{
     font-size:14px;
     padding:16px;
+    flex-grow: 1;
+
     > .current{
       display:flex;
+      overflow:auto;
+      height:64px;
       >li{
         background:#d9d9d9;
         height:24px;
@@ -72,13 +95,16 @@
         margin-right:12px;
       }
     }
+    >.current::-webkit-scrollbar { width: 0 !important }
     >.new{
+
       padding-top:16px;
+      position: relative;
      >button{
+       position: absolute;
        background:transparent;
        border:none;
        color:#999;
-       border-bottom:1px solid;
        padding:0 3px;
      }
     }
