@@ -37,6 +37,7 @@
       align-items: center;
       flex-direction: column;
       opacity: 0.5;
+      font-weight: 600;
       .icon{
         width:32px;
         height:32px;

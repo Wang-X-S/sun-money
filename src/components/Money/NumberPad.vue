@@ -30,63 +30,42 @@
   @import '~@/assets/style/helper.scss';
   .numberPad {
     .output {
-      @extend %innerShadow;
-      font-size: 36px;
+      box-shadow: inset 0 0 3px 1px $color-blue;
+      font-size: 30px;
       font-family: Consolas, monospace;
-      padding: 9px 16px;
+      padding: 6px 16px;
       text-align: right;
-
-
+      color:$color-orange;
+      background: #ffffff;
     }
 
     > .buttons {
+
       @extend %clearFix;
 
       > button {
         background: transparent;
-        border: none;
+        //border: none;
         width: 25%;
-        height: 64px;
+        height: 48px;
         float: left;
 
+        border:1px solid $color-fontBlue;
+        border-radius: 4px;
+        color:$color-orange;
+        font-weight: 700;
         &.ok {
           float: right;
-          height: 64*2px;
+          height: 48*2px;
         }
 
         &.zero {
           width: 50%;
         }
 
+
       $bg: #f2f2f2;
 
-        &:nth-child(1) {
-          background: $bg;
-        }
-
-        &:nth-child(2), &:nth-child(5) {
-          background: darken($bg, 4%)
-        }
-
-        &:nth-child(3), &:nth-child(6), &:nth-child(9) {
-          background: darken($bg, 4*2%)
-        }
-
-        &:nth-child(4), &:nth-child(7), &:nth-child(10), &:nth-child(13) {
-          background: darken($bg, 4*3%)
-        }
-
-        &:nth-child(8), &:nth-child(11) {
-          background: darken($bg, 4*4%)
-        }
-
-        &:nth-child(14) {
-          background: darken($bg, 4*5%)
-        }
-
-        &:nth-child(12) {
-          background: darken($bg, 4*6%)
-        }
       }
 
     }

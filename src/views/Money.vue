@@ -2,8 +2,9 @@
   <div>
     <Layout class-prefix="layout">
       <Types/>
-      <Tags/>
       <Notes/>
+      <Tags/>
+
       <NumberPad/>
 
 

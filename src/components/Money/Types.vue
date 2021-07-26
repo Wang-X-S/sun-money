@@ -1,24 +1,24 @@
 <template>
-  <div>
+  <header>
     <ul class="types">
       <li :class="type==='-'&&'selected'" @click="selectType('-')">支出</li>
       <li :class="type==='+'? 'selected':''" @click="selectType('+')">收入</li>
     </ul>
-  </div>
+  </header>
 </template>
 
 <script lang="ts">
-  import Vue from 'vue'
+  import Vue from 'vue';
   import {Component} from 'vue-property-decorator';
-
   @Component
-  export default class Types extends Vue{
-    type='-';
-    selectType(type:string){
-      if(type !== '-' && type !=='+'){
-                throw new Error('type is unknown')
-              }
-              this.type = type
+  export default class Types extends Vue {
+    type = '-';
+
+    selectType(type: string) {
+      if (type !== '-' && type !== '+') {
+        throw new Error('type is unknown');
+      }
+      this.type = type;
     }
   }
   // export default {
@@ -40,29 +40,39 @@
 </script>
 
 <style lang="scss" scoped>
-  .types {
-    background: #c4c4c4;
+
+  header{
+    background: #f8f8f8;
+
     display: flex;
-    font-size: 24px;
+    align-items: center;
+    justify-content: center;
+    background: darken(#ffffff,3%);
+  >.types {
+    height:50px;
+    display: flex;
     text-align: center;
+    justify-content: center;
+    align-items: center;
 
     > li {
-      height: 64px;
-      width: 50%;
+      height:30px;
+      border-radius: 5px;
+      padding:3px 35px;
       display: flex;
+      font-weight: 700;
       justify-content: center;
       align-items: center;
-      position: relative;
+      color:#18a0fb;
+      background: #ffffff;
+      box-shadow: inset 0 0 1px 1px #18a0fb;
 
-      &.selected::after {
-        content: '';
-        background: #333;
-        width: 100%;
-        height: 4px;
-        position: absolute;
-        bottom: 0;
-        left: 0;
+      &.selected{
+        background: #18a0fb;
+        color:white;
+        box-shadow: inset 0 0 1px 1px #ffffff;
       }
     }
+  }
   }
 </style>
