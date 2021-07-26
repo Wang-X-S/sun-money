@@ -1,6 +1,7 @@
 <template>
   <div>
     <label class="notes">
+      <Icon name="sunny"/>
       <span class="name">记 录</span>
       <input type="text" placeholder="在这里输入备注">
     </label>
@@ -17,12 +18,36 @@
 
 <style scoped lang="scss">
   @import '~@/assets/style/helper.scss';
+  @-webkit-keyframes spin {
+    from {
+      -webkit-transform: rotate(0deg);
+    }
+    to {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
   .notes {
     font-size: 14px;
     background: $color-fontBlue;
-    padding-left: 16px;
+    padding-left: 10px;
     display: flex;
     align-items: center;
+    .icon{
+      width:40px;
+      height:40px;
+      animation: spin 1s infinite;
+      -webkit-animation: spin 3s infinite linear;
+    }
 
     .name {
       padding-right: 16px;
