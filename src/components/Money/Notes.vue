@@ -3,11 +3,9 @@
     <label class="notes">
       <Icon name="sunny"/>
       <span class="name">记 录</span>
-
       <input type="text"
              placeholder="在这里输入备注"
-             @input="onInput"
-             :value="value"
+             v-model="value"
       >
     </label>
   </div>
@@ -20,10 +18,7 @@
   @Component
   export default class Notes extends Vue{
     value='';
-    onInput(event: KeyboardEvent){
-      const input = event.target as HTMLInputElement;
-      this.value = input.value;
-    }
+
   }
 </script>
 
