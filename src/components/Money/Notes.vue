@@ -3,16 +3,27 @@
     <label class="notes">
       <Icon name="sunny"/>
       <span class="name">记 录</span>
-      <input type="text" placeholder="在这里输入备注">
+
+      <input type="text"
+             placeholder="在这里输入备注"
+             @input="onInput"
+             :value="value"
+      >
     </label>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 
-  export default {
-
-    name: "Notes"
+  import Vue from 'vue';
+  import {Component} from 'vue-property-decorator';
+  @Component
+  export default class Notes extends Vue{
+    value='';
+    onInput(event: KeyboardEvent){
+      const input = event.target as HTMLInputElement;
+      this.value = input.value;
+    }
   }
 </script>
 
