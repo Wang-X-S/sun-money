@@ -3,9 +3,9 @@
     <Layout class-prefix="layout">
       <Types/>
       <Notes/>
-      <Tags :data-source="tags"/>
+      <Tags :data-source.sync="tags" />
 
-      <NumberPad/>
+      <NumberPad/>`
 
 
     </Layout>
