@@ -52,7 +52,7 @@
       width:40px;
       height:40px;
       animation: spin 1s infinite;
-      -webkit-animation: spin 3s infinite linear;
+      -webkit-animation: spin 10s infinite linear;
     }
 
     .name {

@@ -1,16 +1,12 @@
 <template>
   <div class="tags">
     <ul class="current">
-      <li>
-        <div class="icon-wrapper">
-          <Icon name="money"/>
-          <p>衣</p>
-        </div>
-      </li>
-      <li>
-        <div class="icon-wrapper">
-          <Icon name="money"/>
-          <p>衣</p>
+      <li v-for="tag in dataSource " :key="tag">
+        <div class="icon-wrapper"
+             @click="toggle(tag)"
+             :class="{selected: selectedTags.indexOf(tag)>-1}">
+          <Icon :name="`${tag}`"/>
+          <p>{{tag}}</p>
         </div>
       </li>
 
@@ -25,10 +21,24 @@
   </div>
 </template>
 
-<script>
-  export default {
-    name: "Tags"
+<script lang="ts">
+  import Vue from 'vue'
+  import {Component,Prop} from 'vue-property-decorator'
+  @Component
+  export default class Tags extends Vue{
+  @Prop() dataSource: string[] | undefined;
+  selectedTags:string[]=[]
+  toggle(tag:string){
+    const index = this.selectedTags.indexOf(tag);
+    if(index>=0){
+      this.selectedTags.splice(index,1)
+    }else{
+    this.selectedTags.push(tag)
+    }
   }
+
+  }
+
 </script>
 
 <style lang="scss" scoped>
@@ -56,6 +66,7 @@
 
 
         >.icon-wrapper{
+          overflow: hidden;
           height: 50px;
           border: 2px solid $color-orange;
           border-radius: 12px;
@@ -64,8 +75,17 @@
           align-items: center;
           flex-direction: column;
           font-size: 14px;
+          &.selected{
+            color:$color-blue;
+            >.icon{
+              animation: move 2s infinite;
+              -webkit-animation: move 2s infinite;
+
+            }
+          }
           .icon {
             margin-top: 2px;
+            background: #fff;
             height: 50px;
             width: 50px;
           }
@@ -74,4 +94,33 @@
       }
     }
   }
+  @-webkit-keyframes move{
+    0%{
+      transform:rotate(50deg);
+    }
+    33%{
+      transform:rotate(20deg);
+    }
+    66%{
+      transform:rotate(-20deg);
+    }
+    100%{
+      transform:rotate(0deg);
+    }
+  }
+  @keyframes move{
+    0%{
+      transform:rotate(0deg);
+    }
+    33%{
+      transform:rotate(20deg);
+    }
+    66%{
+      transform:rotate(-20deg);
+    }
+    100%{
+      transform:rotate(0deg);
+    }
+  }
+
 </style>

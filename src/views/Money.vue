@@ -3,7 +3,7 @@
     <Layout class-prefix="layout">
       <Types/>
       <Notes/>
-      <Tags/>
+      <Tags :data-source="tags"/>
 
       <NumberPad/>
 
@@ -21,7 +21,12 @@
   import NumberPad from "@/components/Money/NumberPad"
   export default {
     name: "Money",
-    components: {NumberPad, Notes, Tags, Types}
+    components: {NumberPad, Notes, Tags, Types},
+    data(){
+      return{
+        tags:['电脑','label','娱乐','房租']
+      }
+    }
   }
 </script>
 <style lang="scss">
