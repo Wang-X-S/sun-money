@@ -6,7 +6,6 @@
       <Notes @update:value="onUpdateNotes"/>
       <Tags :data-source.sync="tags" @update:value="onUpdateTags"/>
       <NumberPad @update:value="onUpdateAmount" @submit="saveRecord"/>
-
     </Layout>
 
   </div>
@@ -19,8 +18,10 @@
   import Notes from "@/components/Money/Notes.vue";
   import NumberPad from "@/components/Money/NumberPad.vue";
   import {Component, Watch} from 'vue-property-decorator';
+  import model from '@/model.ts'
+  console.log(model)
 
-  type Record ={
+  type RecordItem ={
     tags: string[];
     notes:string;
     type:string;
@@ -34,19 +35,19 @@
 
   export default class Money extends Vue{
     tags=['电脑','label','娱乐','房租']
-    recordList:Record[]=JSON.parse(window.localStorage.getItem('recordList')||'[]');
-    record: Record={
+    recordList:RecordItem[]=model.fetch();
+    record: RecordItem={
       tags:[],notes:'',type:'-',amount:0
     }
     saveRecord(){
-      const recordCopy=JSON.parse(JSON.stringify(this.record))
+      const recordCopy=model.clone(this.record)
       recordCopy.createAt=new Date()
       this.recordList.push(recordCopy)
 
     }
     @Watch('recordList')
     onRecordListChange(){
-      window.localStorage.setItem('recordList',JSON.stringify(this.recordList))
+      model.save(this.recordList)
     }
     onUpdateAmount(value:string){
       this.record.amount = parseFloat(value)
