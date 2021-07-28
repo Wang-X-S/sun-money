@@ -10,10 +10,12 @@
     </header>
     <main>
     <div class="form-wrapper">
-      <InputBox :value="tag.name" field-name="标签名" placeholder="在这里输入标签名" @update:value="onUpdateInput"/>
-      <InputBox field-name="日期" placeholder="在这里输入备注" @update:value="onUpdateInput"/>
-      <InputBox field-name="备注" placeholder="" @update:value="onUpdateInput"/>
-      <InputBox field-name="金额" placeholder="" @update:value="onUpdateInput"/>
+      <InputBox :value="tag.name" field-name="标签名"
+                placeholder="在这里输入标签名"
+                @update:value="updateLabelName"/>
+      <InputBox field-name="日期" placeholder="在这里输入备注" />
+      <InputBox field-name="备注" placeholder="" />
+      <InputBox field-name="金额" placeholder="" />
     </div>
     </main>
     <footer>
@@ -37,10 +39,6 @@
   })
   export default class EditLabel extends Vue {
     tag?:{id:string,name:string} = undefined
-    onUpdateInput(value: string) {
-      console.log(value);
-    }
-
     created() {
       const id = this.$route.params.id;
       tagListModel.fetch();
@@ -50,6 +48,11 @@
         this.tag=tag
       } else {
         this.$router.replace('/404');
+      }
+    }
+    updateLabelName(value: string) {
+      if(this.tag){
+        tagListModel.update(this.tag.id,value)
       }
     }
   }

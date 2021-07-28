@@ -9,6 +9,7 @@ type tagListModel = {
   fetch: () => Tag[]
   create:(name:string)=>string
   save:()=>void
+  update:(id:string,name:string)=>'success'|'not found'|'duplicated'
 }
 
 const tagListModel :tagListModel= {
@@ -19,6 +20,22 @@ const tagListModel :tagListModel= {
   },
   save(){
     window.localStorage.setItem(localStorageKeyName,JSON.stringify(this.data))
+  },
+  update(id,name){
+    const idList=this.data.map(item=>item.id)
+    if(idList.indexOf(id)>=0){
+      const names=this.data.map(item=>item.name)
+      if(names.indexOf(name)>=0){
+      return 'duplicated'
+      }else{
+        const tag = this.data.filter(item=>item.id===id)[0]
+        tag.name=name
+        this.save()
+        return 'success'
+      }
+    }else{
+      return 'not found'
+    }
   },
   create(name){
     const names = this.data.map(item=>item.name)
