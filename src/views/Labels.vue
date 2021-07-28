@@ -3,9 +3,9 @@
     <Types/>
 <!--    暂时使用Types-->
     <ol class="tags">
-      <li class="tagsLi" v-for="tag in tags" :key="tag">
-        <Icon :name="`${tag}`" class="left"></Icon>
-        <span>{{tag}}</span>
+      <li class="tagsLi" v-for="tag in tags" :key="tag.id">
+        <Icon :name="`${tag.name}`" class="left"></Icon>
+        <span>{{tag.name}}</span>
         <Icon name="垃圾桶" class="right"></Icon>
       </li>
     </ol>
