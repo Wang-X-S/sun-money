@@ -1,12 +1,12 @@
 <template>
   <div class="tags">
     <ul class="current">
-      <li v-for="tag in dataSource " :key="tag">
+      <li v-for="tag in dataSource " :key="tag.id">
         <div class="icon-wrapper"
-             @click="toggle(tag)"
-             :class="{selected: selectedTags.indexOf(tag)>-1}">
-          <Icon :name="`${tag}`"/>
-          <p>{{tag}}</p>
+             @click="toggle(tag.name)"
+             :class="{selected: selectedTags.indexOf(tag.name)>-1}">
+          <Icon :name="`${tag.name}`"/>
+          <p>{{tag.name}}</p>
         </div>
       </li>
 
