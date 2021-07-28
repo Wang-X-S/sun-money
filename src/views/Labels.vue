@@ -2,13 +2,14 @@
   <Layout>
     <Types/>
 <!--    暂时使用Types-->
-    <ol class="tags">
-      <li class="tagsLi" v-for="tag in tags" :key="tag.id">
+    <div class="tags">
+      <router-link class="tagsLi" v-for="tag in tags" :key="tag.id"
+                   :to="`/labels/edit/${tag.id}`">
         <Icon :name="`${tag.name}`" class="left"></Icon>
         <span>{{tag.name}}</span>
         <Icon name="垃圾桶" class="right"></Icon>
-      </li>
-    </ol>
+      </router-link>
+    </div>
     <div class="createTag-wrapper">
       <button class="createTag" @click="createTag">新建标签</button>
     </div>
@@ -54,7 +55,7 @@
       font-size: 16px;
       padding-left:16px;
       padding-right: 16px;
-      >li{
+      >.tagsLi{
         min-height:44px;
         display:flex;
         align-items: center;
