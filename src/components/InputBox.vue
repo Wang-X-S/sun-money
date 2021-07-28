@@ -4,7 +4,8 @@
       <span class="name">{{this.fieldName}}</span>
       <input type="text"
              :placeholder="this.placeholder"
-             v-model="value"
+             :value="value"
+              @input="onValueChanged($event.target.value)"
       />
     </label>
   </div>
@@ -18,7 +19,8 @@
   export default class inputBox extends Vue {
     @Prop({required:true}) fieldName!:string
     @Prop()placeholder?: string
-    value='';
+    @Prop({default:''}) readonly value!:string;
+
     @Watch('value')
     onValueChanged(value:string){
       this.$emit('update:value',value)
