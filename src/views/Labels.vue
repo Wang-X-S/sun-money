@@ -7,7 +7,7 @@
                    :to="`/labels/edit/${tag.id}`">
         <Icon :name="`${tag.name}`" class="left"></Icon>
         <span>{{tag.name}}</span>
-        <Icon name="垃圾桶" class="right"></Icon>
+        <Icon name="right" class="right"></Icon>
       </router-link>
     </div>
     <div class="createTag-wrapper">
@@ -68,6 +68,8 @@
         >.right{
           position: absolute;
           right:10px;
+          width: 20px;
+          height:20px;
         }
       }
     }

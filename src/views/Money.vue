@@ -2,7 +2,7 @@
   <div>
     <Layout class-prefix="layout">
       <Types @update:value="onUpdateType" />
-      <Notes @update:value="onUpdateNotes"/>
+      <Notes @update:value="onUpdateNotes" />
       <Tags :data-source.sync="tags" @update:value="onUpdateTags"/>
       <NumberPad @update:value="onUpdateAmount" @submit="saveRecord"/>
     </Layout>
