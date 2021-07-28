@@ -1,17 +1,87 @@
 <template>
   <Layout>
-    <p>我是Labels</p>
+    <Types/>
+<!--    暂时使用Types-->
+    <ol class="tags">
+      <li class="tagsLi" v-for="tag in tags" :key="tag">
+        <Icon :name="`${tag}`" class="left"></Icon>
+        <span>{{tag}}</span>
+        <Icon name="垃圾桶" class="right"></Icon>
+      </li>
+    </ol>
+    <div class="createTag-wrapper">
+      <button class="createTag" @click="createTag">新建标签</button>
+    </div>
   </Layout>
 </template>
 
-<script>
+<script lang="ts">
+  import Vue from 'vue'
+  import Types from "@/components/Money/Types.vue";
+  import {Component} from 'vue-property-decorator';
+  import tagListModel from '@/model/tagListModel';
 
-  export default {
-    name: "Labels",
-    components: {}
+  tagListModel.fetch();
+
+  @Component({
+    components:{Types}
+  })
+  export default class Labels extends Vue{
+    tags =  tagListModel.data
+    createTag(){
+      const name = window.prompt('请输入标签名')
+      if(name){
+       const message =  tagListModel.create(name)
+        if(message === 'duplicated'){
+          window.alert('标签名重复')
+        }else if(message === 'success'){
+          window.alert('添加成功')
+        }
+      }
+    }
   }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+  @import '~@/assets/style/helper.scss';
+  .tags::-webkit-scrollbar {
+    width: 0 !important
+  }
+    .tags{
+      overflow: auto;
+      height:70vh;
+      background:white ;
+      font-size: 16px;
+      padding-left:16px;
+      padding-right: 16px;
+      >li{
+        min-height:44px;
+        display:flex;
+        align-items: center;
+        border-bottom:1px solid $color-shadow;
+        position: relative;
+        >.icon{
+        width: 24px;
+        height:24px;
+      }
+        >.right{
+          position: absolute;
+          right:10px;
+        }
+      }
+    }
+  .createTag{
+    border:none;
+    background: $color-fontBlue;
+    color:white;
+    padding:6px 16px;
+    border-radius: 12px;
+    font-size: 18px;
+    &-wrapper{
+      margin-top:20px;
 
+      display: flex;
+      justify-content: center;
+    }
+  }
 </style>
