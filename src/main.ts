@@ -25,6 +25,9 @@ window.createTag=(name:string)=>{
 window.removeTag=(id:string)=>{
   return tagListModel.remove(id)
 }
+window.updateTagName=(id:string,name:string)=>{
+ return  tagListModel.update(id, name);
+}
 new Vue({
   router,
   store,

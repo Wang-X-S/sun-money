@@ -57,9 +57,9 @@
       }
     }
 
-    updateLabelName(value: string) {
+    updateLabelName(name: string) {
       if (this.tag) {
-        tagListModel.update(this.tag.id, value);
+       window.updateTagName(this.tag.id,name)
       }
     }
     deleteTag() {

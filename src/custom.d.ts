@@ -21,4 +21,5 @@ interface Window {
   tagList:Tag[]
   createTag:(name:string)=>void
   removeTag:(id:string)=>boolean
+  updateTagName:(id:string,name:string)=>'success'|'not found'|'duplicated'
 }
