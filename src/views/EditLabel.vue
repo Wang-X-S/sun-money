@@ -66,7 +66,7 @@
       if(this.tag){
         tagListModel.remove(this.tag.id)
       }
-      this.$router.replace('/labels')
+      this.$router.back()
     }
     resolve(){
       console.log('未完成')
