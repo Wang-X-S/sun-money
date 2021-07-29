@@ -13,11 +13,12 @@ type tagListModel = {
   data: Tag[]
   fetch: () => Tag[]
   create:(name:string)=>string
-  remove:(id:string)=>void
+  remove:(id:string)=>boolean
   save:()=>void
   update:(id:string,name:string)=>'success'|'not found'|'duplicated'
 }
 interface Window {
   tagList:Tag[]
   createTag:(name:string)=>void
+  removeTag:(id:string)=>boolean
 }

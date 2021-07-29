@@ -64,9 +64,14 @@
     }
     deleteTag() {
       if(this.tag){
-        tagListModel.remove(this.tag.id)
+        if(window.removeTag(this.tag.id)){
+          this.$router.back()
+        }else{
+          window.alert('删除失败')
+        }
+
       }
-      this.$router.back()
+
     }
     resolve(){
       console.log('未完成')

@@ -16,9 +16,9 @@ const tagListModel :tagListModel= {
   remove(id:string){
     const idList = this.data.map(item=>item.id)
     const index = idList.indexOf(id)
-    console.log(index);
     this.data.splice(index,1)
     this.save()
+    return true
   },
   update(id,name){
     const idList=this.data.map(item=>item.id)
