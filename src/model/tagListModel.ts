@@ -8,6 +8,7 @@ type tagListModel = {
   data: Tag[]
   fetch: () => Tag[]
   create:(name:string)=>string
+  remove:(id:string)=>void
   save:()=>void
   update:(id:string,name:string)=>'success'|'not found'|'duplicated'
 }
@@ -20,6 +21,13 @@ const tagListModel :tagListModel= {
   },
   save(){
     window.localStorage.setItem(localStorageKeyName,JSON.stringify(this.data))
+  },
+  remove(id:string){
+    const idList = this.data.map(item=>item.id)
+    const index = idList.indexOf(id)
+    console.log(index);
+    this.data.splice(index,1)
+    this.save()
   },
   update(id,name){
     const idList=this.data.map(item=>item.id)
