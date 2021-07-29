@@ -42,14 +42,11 @@
       tags:[],notes:'',type:'-',amount:0
     }
     saveRecord(){
-      const recordCopy=recordListModel.clone(this.record)
-      recordCopy.createAt=new Date()
-      this.recordList.push(recordCopy)
-
+      recordListModel.create(this.record)
     }
     @Watch('recordList')
     onRecordListChange(){
-      recordListModel.save(this.recordList)
+      recordListModel.save()
     }
     onUpdateAmount(value:string){
       this.record.amount = parseFloat(value)

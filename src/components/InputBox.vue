@@ -3,7 +3,7 @@
     <label class="notes">
       <span class="name">{{this.fieldName}}</span>
       <input type="text"
-             :placeholder="this.placeholder"
+             :placeholder="placeholder"
              :value="value"
               @input="onValueChanged($event.target.value)"
       />
@@ -21,7 +21,6 @@
     @Prop()placeholder?: string
     @Prop({default:''}) readonly value!:string;
 
-    @Watch('value')
     onValueChanged(value:string){
       this.$emit('update:value',value)
     }
