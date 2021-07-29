@@ -23,4 +23,6 @@ interface Window {
   removeTag:(id:string)=>boolean
   updateTagName:(id:string,name:string)=>'success'|'not found'|'duplicated'
   findTag:(id:string)=>Tag|undefined;
+  recordList:RecordItem[]
+  createRecord:(record:RecordItem)=>void
 }

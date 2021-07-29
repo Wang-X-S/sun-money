@@ -18,9 +18,8 @@
   import NumberPad from "@/components/Money/NumberPad.vue";
   import {Component, Watch} from 'vue-property-decorator';
   import recordListModel from '@/model/recordListModel'
-  import tagListModel from '@/model/tagListModel';
 
-  const recordList = recordListModel.fetch()
+recordListModel.fetch()
 
 
   type RecordItem ={
@@ -37,16 +36,12 @@
 
   export default class Money extends Vue{
     tags=window.tagList;
-    recordList:RecordItem[]=recordList;
+    recordList=window.recordList
     record: RecordItem={
       tags:[],notes:'',type:'-',amount:0
     }
     saveRecord(){
-      recordListModel.create(this.record)
-    }
-    @Watch('recordList')
-    onRecordListChange(){
-      recordListModel.save()
+      window.createRecord(this.record)
     }
     onUpdateAmount(value:string){
       this.record.amount = parseFloat(value)

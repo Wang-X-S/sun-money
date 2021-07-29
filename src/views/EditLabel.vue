@@ -2,14 +2,12 @@
 
   <div class="wrapper">
     <header>
-
       <div class="navBar">
         <Icon name="left"  class="left" @click.native="goBack"/>
         <div class="tag">
           <Icon :name="`${tag.name}`" class="middle"/>
           <span class="title">{{tag.name}}</span>
         </div>
-
         <span class="right"></span>
       </div>
     </header>
@@ -35,7 +33,6 @@
 <script lang="ts">
   import Vue from 'vue';
   import {Component} from 'vue-property-decorator';
-  import tagListModel from '@/model/tagListModel';
   import Notes from '@/components/Money/Notes.vue';
   import InputBox from '@/components/InputBox.vue';
 
@@ -64,9 +61,7 @@
         }else{
           window.alert('删除失败')
         }
-
       }
-
     }
     resolve(){
       console.log('未完成')
@@ -89,6 +84,7 @@
     background: $color-fontBlue;
     color: #ffffff;
     font-weight: 500;
+    height:12vh;
 
     > .tag {
       display: flex;
@@ -115,7 +111,6 @@
 
   .wrapper {
     position: relative;
-
     height: 100vh;
   }
 

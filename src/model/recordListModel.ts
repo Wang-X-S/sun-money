@@ -14,6 +14,7 @@ const recordListModel = {
     const recordCopy=clone(record)
     recordCopy.createAt=new Date()
     this.data.push(recordCopy)
+    this.save()
   }
 }
 export default recordListModel

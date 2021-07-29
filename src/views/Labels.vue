@@ -20,9 +20,6 @@
   import Vue from 'vue'
   import Types from "@/components/Money/Types.vue";
   import {Component} from 'vue-property-decorator';
-  import tagListModel from '@/model/tagListModel';
-
-
 
   @Component({
     components:{Types}
