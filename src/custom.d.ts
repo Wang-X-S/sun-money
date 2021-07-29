@@ -17,12 +17,4 @@ type tagListModel = {
   save:()=>void
   update:(id:string,name:string)=>'success'|'not found'|'duplicated'
 }
-interface Window {
-  tagList:Tag[]
-  createTag:(name:string)=>void
-  removeTag:(id:string)=>boolean
-  updateTagName:(id:string,name:string)=>'success'|'not found'|'duplicated'
-  findTag:(id:string)=>Tag|undefined;
-  recordList:RecordItem[]
-  createRecord:(record:RecordItem)=>void
-}
+

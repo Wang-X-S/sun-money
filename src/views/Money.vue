@@ -16,8 +16,9 @@
   import Tags from "@/components/Money/Tags.vue";
   import Notes from "@/components/Money/Notes.vue";
   import NumberPad from "@/components/Money/NumberPad.vue";
-  import {Component, Watch} from 'vue-property-decorator';
+  import {Component} from 'vue-property-decorator';
   import recordListModel from '@/model/recordListModel'
+  import store from '@/store/index2';
 
 recordListModel.fetch()
 
@@ -35,13 +36,13 @@ recordListModel.fetch()
   })
 
   export default class Money extends Vue{
-    tags=window.tagList;
-    recordList=window.recordList
+    tags=store.tagList;
+    recordList=store.recordList
     record: RecordItem={
       tags:[],notes:'',type:'-',amount:0
     }
     saveRecord(){
-      window.createRecord(this.record)
+      store.createRecord(this.record)
     }
     onUpdateAmount(value:string){
       this.record.amount = parseFloat(value)
@@ -65,13 +66,5 @@ recordListModel.fetch()
 </style>
 <style lang="scss" scoped>
   @import '~@/assets/style/helper.scss';
-
-
-
-
-
-
-
-
 
 </style>
