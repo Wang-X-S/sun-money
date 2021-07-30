@@ -32,7 +32,7 @@
     components: {NumberPad, Notes, Tags, Types},
     computed:{
       recordList(){
-        return this.$store.state.recordList
+        return this.$store.state.recordList;
       }
     }
   })
@@ -44,6 +44,7 @@
     };
     created(){
       this.$store.commit('fetchRecords')
+
     }
 
     saveRecord() {

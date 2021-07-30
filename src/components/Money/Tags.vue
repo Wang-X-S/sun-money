@@ -28,14 +28,14 @@
   @Component({
     computed:{
       tagList(){
-        //TODO
-        //return this.$store.fetchTags()
-        return []
+        return this.$store.state.tagList
       }
     }
   })
   export default class Tags extends Vue{
-
+  created(){
+    this.$store.commit('fetchTags')
+  }
   selectedTags:string[]=[]
   toggle(tag:string){
     const index = this.selectedTags.indexOf(tag);
@@ -51,8 +51,7 @@
     if(!name){
       window.alert("标签名不能为空")
     }else{
-      //TODO
-      //oldStore.createTag(name)
+      this.$store.commit('createTag',name)
     }
     }
 
