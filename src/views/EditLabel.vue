@@ -35,7 +35,7 @@
   import {Component} from 'vue-property-decorator';
   import Notes from '@/components/Money/Notes.vue';
   import InputBox from '@/components/InputBox.vue';
-  import store from '@/store/index2';
+  import oldStore from '@/store/index2';
 
   @Component({
     components: {InputBox, Notes}
@@ -44,7 +44,7 @@
     tag?: { id: string, name: string } = undefined;
 
     created() {
-      this.tag = store.findTag(this.$route.params.id);
+      this.tag = oldStore.findTag(this.$route.params.id);
       if (!this.tag) {
         this.$router.replace('/404');
       }
@@ -52,12 +52,12 @@
 
     updateLabelName(name: string) {
       if (this.tag) {
-       store.updateTagName(this.tag.id,name)
+       oldStore.updateTagName(this.tag.id,name)
       }
     }
     deleteTag() {
       if(this.tag){
-        if(store.removeTag(this.tag.id)){
+        if(oldStore.removeTag(this.tag.id)){
           this.$router.back()
         }else{
           window.alert('删除失败')

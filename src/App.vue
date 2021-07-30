@@ -4,6 +4,17 @@
   </div>
 </template>
 
+<script>
+  import oldStore from "@/store/index2"
+  export default {
+    data(){
+      return {
+        oldStore
+      }
+    }
+  }
+</script>
+
 <style lang="scss">
   @import "~@/assets/style/reset.scss";
   @import "~@/assets/style/helper.scss";
