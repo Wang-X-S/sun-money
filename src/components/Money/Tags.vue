@@ -24,10 +24,18 @@
 <script lang="ts">
   import Vue from 'vue'
   import {Component} from 'vue-property-decorator'
-  import oldStore from '@/store/index2';
-  @Component
+
+  @Component({
+    computed:{
+      tagList(){
+        //TODO
+        //return this.$store.fetchTags()
+        return []
+      }
+    }
+  })
   export default class Tags extends Vue{
-    tagList = oldStore.fetchTags()
+
   selectedTags:string[]=[]
   toggle(tag:string){
     const index = this.selectedTags.indexOf(tag);
@@ -43,7 +51,8 @@
     if(!name){
       window.alert("标签名不能为空")
     }else{
-      oldStore.createTag(name)
+      //TODO
+      //oldStore.createTag(name)
     }
     }
 

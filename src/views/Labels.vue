@@ -20,17 +20,19 @@
   import Vue from 'vue'
   import Types from "@/components/Money/Types.vue";
   import {Component} from 'vue-property-decorator';
-  import oldStore from '@/store/index2';
+
 
   @Component({
     components:{Types}
   })
   export default class Labels extends Vue{
-    tags =  oldStore.tagList
+    //TODO
+    tags = [] //oldStore.tagList
     createTag(){
       const name = window.prompt('请输入标签名')
       if(name){
-        oldStore.createTag(name)
+        //TODO
+        //oldStore.createTag(name)
       }
     }
   }
