@@ -17,10 +17,9 @@
   import Notes from "@/components/Money/Notes.vue";
   import NumberPad from "@/components/Money/NumberPad.vue";
   import {Component} from 'vue-property-decorator';
-  import recordListModel from '@/model/recordListModel'
   import store from '@/store/index2';
 
-recordListModel.fetch()
+
 
 
   type RecordItem ={
