@@ -20,20 +20,21 @@
   import Vue from 'vue'
   import Types from "@/components/Money/Types.vue";
   import {Component} from 'vue-property-decorator';
+  import {mixins} from 'vue-class-component';
+  import TagHelper from '@/mixins/TagHelper';
 
 
   @Component({
-    components:{Types}
-  })
-  export default class Labels extends Vue{
-    //TODO
-    tags = [] //oldStore.tagList
-    createTag(){
-      const name = window.prompt('请输入标签名')
-      if(name){
-        //TODO
-        //oldStore.createTag(name)
+    components:{Types},
+    computed:{
+      tags(){
+        return this.$store.state.tagList
       }
+    }
+  })
+  export default class Labels extends mixins(TagHelper){
+    beforeCreate(){
+      this.$store.commit('fetchTags')
     }
   }
 </script>

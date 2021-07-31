@@ -10,7 +10,7 @@
         </div>
       </li>
 
-      <li class="newButton" @click="create">
+      <li class="newButton" @click="createTag">
         <div class="icon-wrapper">
           <Icon name="label"/>
           <p>新建标签</p>
@@ -24,6 +24,8 @@
 <script lang="ts">
   import Vue from 'vue'
   import {Component} from 'vue-property-decorator'
+  import {mixins} from 'vue-class-component';
+  import TagHelper from '@/mixins/TagHelper';
 
   @Component({
     computed:{
@@ -32,7 +34,7 @@
       }
     }
   })
-  export default class Tags extends Vue{
+  export default class Tags extends mixins(TagHelper){
   created(){
     this.$store.commit('fetchTags')
   }
@@ -46,15 +48,6 @@
     }
     this.$emit('update:value',this.selectedTags)
   }
-  create(){
-    const name =window.prompt('请输入标签名');
-    if(!name){
-      window.alert("标签名不能为空")
-    }else{
-      this.$store.commit('createTag',name)
-    }
-    }
-
   }
 
 </script>
