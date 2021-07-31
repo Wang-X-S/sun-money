@@ -46,22 +46,23 @@
       return this.$store.state.currentTag;
     }
     created() {
-
       const id = this.$route.params.id
+      this.$store.commit('fetchTags',id)
       this.$store.commit('setCurrentTag',id)
       if (!this.tag) {
         this.$router.replace('/404');
       }
     }
-
     updateLabelName(name: string) {
       if (this.tag) {
+        this.$store.commit('updateTagName',{id:this.tag.id,name})
         //TODO
         //oldStore.updateTagName(this.tag.id,name)
       }
     }
     deleteTag() {
       if(this.tag){
+        this.$store.commit('removeTag',this.tag.id)
         //TODO
         return
         // if(oldStore.removeTag(this.tag.id)){
