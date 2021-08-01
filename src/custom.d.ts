@@ -1,20 +1,20 @@
-type RootState={
+interface RootState{
   recordList:RecordItem[],
   tagList: Tag[],
   currentTag ?:Tag
 }
-type RecordItem ={
+interface RecordItem {
   tags: string[];
   notes:string;
   type:string;
   amount:number;
   createAt?: string;
 }
-type Tag ={
+interface Tag {
   id:string;
   name:string;
 }
-type tagListModel = {
+interface tagListModel {
   data: Tag[]
   fetch: () => Tag[]
   create:(name:string)=>string
