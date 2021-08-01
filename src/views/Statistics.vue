@@ -6,9 +6,14 @@
       <div>
         <ol>
           <li v-for="(group,index) in result" :key="index">
+            <h3 class="title">{{group.title}}</h3>
             <ol>
-              <li v-for="item in group.items" :key="item.id">
-                {{item.amount}}{{item.createAt}}
+              <li v-for="item in group.items" :key="item.id"
+                class="record"
+              >
+                <span>{{tagString(item.tags)}}</span>
+                <span class="notes">{{item.notes}}</span>
+                <span>￥{{item.amount}}</span>
               </li>
             </ol>
 
@@ -30,6 +35,9 @@
     components: {Tab}
   })
   export default class Statistics extends Vue {
+    tagString(tags: string[]){
+      return tags.length===0?'无': tags.join(',')
+    }
 
     get recordList() {
       type RootState={
@@ -52,7 +60,6 @@
     }
 
     get result() {
-
       type RecordItem ={
         tags: string[];
         notes:string;
@@ -61,15 +68,14 @@
         createAt?: string;
       }
       const {recordList} = this;
-      type HashTableValue={title:string,items: RecordItem[]}
-      const hashTable:{[key:string]: HashTableValue}={}
-      for(let i=0;i<recordList.length;i++){
-        const [date,time]= recordList[i].createAt!.split('T')
-        hashTable[date]=hashTable[date]|| {title:date,items:[]}
-        hashTable[date].items.push(recordList[i])
+      type HashTableValue = { title: string, items: RecordItem[] }
+      const hashTable: { [key: string]: HashTableValue } = {};
+      for (let i = 0; i < recordList.length; i++) {
+        const [date] = recordList[i].createAt!.split('T');
+        hashTable[date] = hashTable[date] || {title: date, items: []};
+        hashTable[date].items.push(recordList[i]);
       }
-      console.log(hashTable)
-      return hashTable
+      return hashTable;
     }
 
     created() {
