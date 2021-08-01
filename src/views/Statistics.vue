@@ -17,11 +17,11 @@
   import Vue from 'vue'
   import {Component} from 'vue-property-decorator'
   import Tab from "@/components/Tab"
-  import Types from "@/components/Money/Types"
+
   import recordTypeList from "@/contants/recordTypeList"
   import intervalList from "@/contants/intervalList"
   @Component({
-    components:{Types, Tab}
+    components:{ Tab}
   })
   export default class Statistics extends Vue{
     interval='day'
