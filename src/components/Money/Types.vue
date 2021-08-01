@@ -25,29 +25,12 @@
       this.$emit('update:value',value)
     }
   }
-  // export default {
-  //   name: "Types",
-  //   data(){
-  //     return {
-  //       type:'-'
-  //     }
-  //   },
-  //   methods:{
-  //     selectType(type){
-  //       if(type !== '-' && type !=='+'){
-  //         throw new Error('type is unknown')
-  //       }
-  //       this.type = type
-  //     }
-  //   }
-  // }
 </script>
 
 <style lang="scss" scoped>
 
   header{
     background: #f8f8f8;
-
     display: flex;
     align-items: center;
     justify-content: center;
