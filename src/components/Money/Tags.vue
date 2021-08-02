@@ -86,8 +86,9 @@
           align-items: center;
           flex-direction: column;
           font-size: 14px;
+          font-weight: 600;
           &.selected{
-            color:$color-blue;
+            color:$color-fontBlue;
             >.icon{
               animation: move 2s infinite;
               -webkit-animation: move 2s infinite;
