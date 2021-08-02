@@ -4,9 +4,10 @@
       <Tab :data-source="typeArray" :value.sync="type" class-prefix="type"/>
       <Tab class-prefix="interval" :data-source="dateArray" :value.sync="interval"/>
       <div class="listing">
+
         <ol>
           <li v-for="(group,index) in groupList" :key="index">
-            <h3 class="title">{{beautify(group.title)}}</h3>
+            <h3 class="title">{{beautify(group.title)}}<span>总计：{{group.total}}</span></h3>
             <ol>
               <li v-for="item in group.items" :key="item.id"
                 class="record">
@@ -18,7 +19,6 @@
                 <span>￥{{item.amount}}</span>
               </li>
             </ol>
-
           </li>
         </ol>
       </div>
@@ -51,8 +51,10 @@
         return '昨天'
       }else if(day.isSame(now.subtract(2,'day'),'day')){
         return '前天'
-      }else{
-        return day.format('YYYY年MM月DD日')
+      } else if (day.isSame(now, 'year')) {
+        return day.format('M月D日');
+      } else {
+        return day.format('YYYY年M月D日');
       }
     }
     get recordList() {
@@ -83,11 +85,12 @@
         amount:number;
         createAt?: string;
       }
-      type HashTableValue = { title: string, items: RecordItem[] }
+
       const {recordList} = this;
       if(recordList.length===0){return []}
+      type Record={title:string,total?:number,items:RecordItem[]}[]//对象的数组
       const newList = clone(recordList).filter(r=>r.type===this.type).sort((a,b)=>dayjs(b.createAt).valueOf()-dayjs(a.createAt).valueOf())
-      const result = [{title:dayjs(newList[0].createAt).format('YYYY-MM-DD'),items:[newList[0]]}]
+      const result : Record = [{title:dayjs(newList[0].createAt).format('YYYY-MM-DD'),items:[newList[0]]}]
       for(let i = 1 ;i<newList.length;i++){
         const current=newList[i]
         const last = result[result.length-1]
@@ -97,12 +100,12 @@
           result.push({title:dayjs(current.createAt).format('YYYY-MM-DD'),items:[current]})
         }
       }
-      //   const hashTable: { [key: string]: HashTableValue } = {};
-      // for (let i = 0; i < recordList.length; i++) {
-      //   const [date] = recordList[i].createAt!.split('T');
-      //   hashTable[date] = hashTable[date] || {title: date, items: []};
-      //   hashTable[date].items.push(recordList[i]);
-      // }
+      result.map(group => {
+        group.total = group.items.reduce((sum, item) => {return sum + item.amount;}, 0);
+      });
+      result.forEach(group=>{
+        group.total = group.items.reduce((sum,item)=>{return sum + item.amount},0)
+      })
       return result;
     }
 
