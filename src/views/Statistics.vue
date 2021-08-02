@@ -5,12 +5,11 @@
       <Tab class-prefix="interval" :data-source="dateArray" :value.sync="interval"/>
       <div class="listing">
         <ol>
-          <li v-for="(group,index) in result" :key="index">
+          <li v-for="(group,index) in groupList" :key="index">
             <h3 class="title">{{beautify(group.title)}}</h3>
             <ol>
               <li v-for="item in group.items" :key="item.id"
-                class="record"
-              >
+                class="record">
                 <div>
                   <Icon :name="item.tags"></Icon>
                   <span>{{tagString(item.tags)}}</span>
@@ -76,7 +75,7 @@
       return (this.$store.state as RootState).recordList;
     }
 
-    get result() {
+    get groupList() {
       type RecordItem ={
         tags: string[];
         notes:string;
@@ -87,11 +86,9 @@
       type HashTableValue = { title: string, items: RecordItem[] }
       const {recordList} = this;
       if(recordList.length===0){return []}
-
-
-      const newList = clone(recordList).sort((a,b)=>dayjs(b.createAt).valueOf()-dayjs(a.createAt).valueOf())
+      const newList = clone(recordList).filter(r=>r.type===this.type).sort((a,b)=>dayjs(b.createAt).valueOf()-dayjs(a.createAt).valueOf())
       const result = [{title:dayjs(newList[0].createAt).format('YYYY-MM-DD'),items:[newList[0]]}]
-      for(let i = 0 ;i<newList.length;i++){
+      for(let i = 1 ;i<newList.length;i++){
         const current=newList[i]
         const last = result[result.length-1]
         if(dayjs(last.title).isSame(dayjs(current.createAt),'day')){
