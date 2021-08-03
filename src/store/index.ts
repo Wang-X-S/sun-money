@@ -9,7 +9,8 @@ const store = new Vuex.Store({
   state: {
     recordList: [] ,
     tagList:[] ,
-    currentTag :undefined
+    currentTag :undefined,
+
   } as RootState,
   mutations: {
     //recordList
@@ -73,6 +74,7 @@ const store = new Vuex.Store({
     saveTags(state){
       window.localStorage.setItem('tagList',JSON.stringify(state.tagList))
     },
+
   },
 
 });

@@ -1,166 +1,372 @@
 <template>
-  <div class="x">
-    <Layout>
-      <Tab :data-source="typeArray" :value.sync="type" class-prefix="type"/>
-      <Tab class-prefix="interval" :data-source="dateArray" :value.sync="interval"/>
-      <div class="listing">
-
-        <ol>
-          <li v-for="(group,index) in groupList" :key="index">
-            <h3 class="title">{{beautify(group.title)}}<span>总计：{{group.total}}</span></h3>
-            <ol>
-              <li v-for="item in group.items" :key="item.id"
-                class="record">
-                <div>
-                  <Icon :name="item.tags"></Icon>
-                  <span>{{tagString(item.tags)}}</span>
-                </div>
-                <span class="notes">{{item.notes}}</span>
-                <span>￥{{item.amount}}</span>
-              </li>
-            </ol>
-          </li>
-        </ol>
+  <Layout>
+    <header class="header">
+      <div class="logo">
+        <Icon name="sun-2"></Icon>
       </div>
-    </Layout>
-  </div>
+      <div class="info">
+        <div class="calender">
+          <div class="year">
+          <select v-model="year" class="select">
+            <option v-for="y in years" :key="y" :value="y">{{y}}</option>
+          </select>
+          <span>年</span>
+          </div>
+          <div class="mouth">
+            <select v-model="month" class="select">
+              <option v-for="m in 12" :key="m" :value="m">{{beautifyMonth(m)}}</option>
+            </select>
+            <span>月</span>
+          </div>
+        </div>
+        <div class="total">
+          <div class="label-value">
+            <div class="label">收入</div>
+            <div class="value">
+              <span>￥{{this.totalIncome.toString()}}</span>
+            </div>
+          </div>
+          <div class="label-value">
+            <div class="label">支出</div>
+            <div class="value">
+              <span>￥{{this.totalExpense.toString()}}</span>
+
+            </div>
+          </div>
+          <div></div>
+        </div>
+      </div>
+    </header>
+    <ul class="record">
+      <li v-for="(group,index) in groupList" :key="index">
+        <div class="title">
+          <span>{{getTitle(group)}}</span>
+          <span>{{getTotal(group)}}</span>
+        </div>
+        <div class="items">
+          <router-link class="item" v-for="(item,index) in group.items" :key="index"
+                       :to="`/record/edit/${item.id}`">
+            <div class="tag">
+              <Icon :name="item.tags" class="icon"></Icon>
+              <span>{{item.tags.toString()}}</span>
+            </div>
+            <span>{{getAmount(item)}}</span>
+          </router-link>
+        </div>
+      </li>
+    </ul>
+
+  </Layout>
 </template>
 
 <script lang="ts">
   import Vue from 'vue';
-  import {Component} from 'vue-property-decorator';
-  import Tab from '@/components/Tab.vue';
-  import recordTypeList from '@/contants/recordTypeList';
-  import intervalList from '@/contants/intervalList';
-  // noinspection TypeScriptCheckImport
+  import {Component,Watch} from 'vue-property-decorator';
   import dayjs from 'dayjs'
   import clone from '@/lib/clone';
-  @Component({
-    components: {Tab}
-  })
+
+  type Group={
+    name:string;
+    items:RecordItem[]
+  }
+  type RecordItem = {
+    tags: string[];
+    notes: string;
+    type: string;
+    amount: number;
+    createAt?: string;
+  }
+  type RootState = {
+    recordList: RecordItem[],
+    tagList: Tag[],
+    currentTag?: Tag
+  }
+  type Tag = {
+    id: string;
+    name: string;
+  }
+  @Component({  })
   export default class Statistics extends Vue {
-    tagString(tags: string[]){
-      return tags.length===0?'无': tags.join(',')
-    }
-    beautify(string:string){
-      const day = dayjs(string)
-      const now = dayjs()
-      if(day.isSame(now,'day')){
-        return '今天'
-      }else if(day.isSame(now.subtract(1,'day'),'day')){
-        return '昨天'
-      }else if(day.isSame(now.subtract(2,'day'),'day')){
-        return '前天'
-      } else if (day.isSame(now, 'year')) {
-        return day.format('M月D日');
-      } else {
-        return day.format('YYYY年M月D日');
-      }
-    }
+    year = window.sessionStorage.getItem('year') || dayjs().year().toString();
+    month = window.sessionStorage.getItem('month') || (dayjs().month() + 1).toString();
+
     get recordList() {
-      type RootState={
-        recordList:RecordItem[],
-        tagList: Tag[],
-        currentTag ?:Tag
-      }
-      type Tag ={
-        id:string;
-        name:string;
-      }
-      type RecordItem ={
-        tags: string[];
-        notes:string;
-        type:string;
-        amount:number;
-        createAt?: string;
-      }
       return (this.$store.state as RootState).recordList;
     }
-
     get groupList() {
-      type RecordItem ={
-        tags: string[];
-        notes:string;
-        type:string;
-        amount:number;
-        createAt?: string;
-      }
-
-      const {recordList} = this;
-      if(recordList.length===0){return []}
-      type Record={title:string,total?:number,items:RecordItem[]}[]//对象的数组
-      const newList = clone(recordList).filter(r=>r.type===this.type).sort((a,b)=>dayjs(b.createAt).valueOf()-dayjs(a.createAt).valueOf())
-      const result : Record = [{title:dayjs(newList[0].createAt).format('YYYY-MM-DD'),items:[newList[0]]}]
-      for(let i = 1 ;i<newList.length;i++){
-        const current=newList[i]
-        const last = result[result.length-1]
-        if(dayjs(last.title).isSame(dayjs(current.createAt),'day')){
-          last.items.push(current)
-        }else{
-          result.push({title:dayjs(current.createAt).format('YYYY-MM-DD'),items:[current]})
+      const result: Group[] = [];
+      const names: string[] = [];
+      // 对记录排序
+      const sortedRecordList = clone<RecordItem[]>(this.recordList)
+        .filter(item => (dayjs(item.createAt).year() === parseInt(this.year))
+          && (dayjs(item.createAt).month() + 1 === parseInt(this.month)))
+        .sort((b, a) => {
+          return dayjs(a.createAt).valueOf() - dayjs(b.createAt).valueOf();
+        });
+      let record: RecordItem;
+      for (record of sortedRecordList) {
+        let date: string;
+        if (this.year === dayjs().year().toString()) {
+          // 今年的数据按天分组
+          date = dayjs(record.createAt).toISOString().split('T')[0];
+        } else {
+          // 以前的数据按月分组
+          date = dayjs(record.createAt).format('YYYY-MM');
+        }
+        const index = names.indexOf(date);
+        if (index < 0) {
+          names.push(date);
+          result.push({name: date, items: [record]});
+        } else {
+          result[index].items.push(record);
         }
       }
-      result.map(group => {
-        group.total = group.items.reduce((sum, item) => {return sum + item.amount;}, 0);
-      });
-      result.forEach(group=>{
-        group.total = group.items.reduce((sum,item)=>{return sum + item.amount},0)
-      })
       return result;
+
+    }
+    get years(){
+      const endYear = dayjs().year()
+      let y =2000
+      let result:number[]=[]
+      while(y<endYear+1){
+        result.push(y)
+        y++
+      }
+      result=result.reverse()
+      return result
+    }
+    get totalIncome(){
+      let total = 0;
+      let group:Group;
+      for(group of this.groupList){
+        let record: RecordItem;
+        for(record of group.items){
+          if(record.type ==='+'){
+            total += record.amount
+          }else{
+            continue;
+          }
+        }
+      }
+      return total
+    }
+    get totalExpense(){
+      let total = 0;
+      let group:Group;
+      for(group of this.groupList){
+        let record:RecordItem
+        for(record of group.items){
+          if(record.type ==='-'){
+            total += record.amount
+          }else{
+            continue
+          }
+        }
+      }
+      return total
+    }
+
+    beautifyMonth(m:number){
+      return m<10 ?'0'+m.toString() :m.toString()
+    }
+    toWeekday(value:number){
+      if(value>=0&&value<=6){
+        return [
+          '星期天',
+          '星期一',
+          '星期二',
+          '星期三',
+          '星期四',
+          '星期五',
+          '星期六'
+        ][value]
+      }
+    }
+    getTitle(group:Group){
+      const day = dayjs(group.name)
+      const now =dayjs();
+      if(day.isSame(now,'day')){
+        return `今天 ${this.toWeekday(day.day())}`
+      }else if(day.isSame(now.subtract(1,'day'),'day')){
+        return `昨天 ${this.toWeekday(day.day())}`
+      }else if(day.isSame(now.subtract(2,'day'),'day')){
+        return `前天 ${this.toWeekday(day.day())}`
+      }else if(day.isSame(now,'year')){
+        return `${day.format('M月D日')} ${this.toWeekday(day.day())}`
+      }else{
+        return `${day.format('YYYY年M月')}`
+      }
+    }
+    getTotal(group:Group){
+      let total = 0;
+      let item:RecordItem;
+      for(item of group.items){
+        if(item.type==='-'){
+          total -= item.amount
+        }else if(item.type === '+'){
+          total += item.amount
+        }
+      }
+      if(total<=0){
+        return `支出:￥${Math.abs(total)}`
+      }else{
+        return `收入:￥${Math.abs(total)}`
+      }
+    }
+    getAmount(record:RecordItem){
+      if(record.type==='+'){
+        return '+'+record.amount
+      }else{
+        return -record.amount
+      }
     }
 
     created() {
       this.$store.commit('fetchRecords');
     }
-
-    interval = 'day';
-    type = '-';
-    typeArray = recordTypeList;
-    dateArray = intervalList;
+    @Watch('year')
+    saveYear(year:string){
+      window.sessionStorage.setItem('year',year)
+    }
+    @Watch('month')
+    saveMonth(month:string){
+      window.sessionStorage.setItem('month',month)
+    }
   }
 </script>
 
 <style scoped lang="scss">
-  .listing{
-    overflow: auto;
-    height: 78vh;
-  }
-  .listing::-webkit-scrollbar{
-    width:0!important
-  }
-  %item {
-    padding: 8px 16px;
-    line-height: 24px;
+.header{
+  background: #18a0fb ;
+  .logo{
     display: flex;
-    justify-content: space-between;
-    align-content: center;
-  }
-  .title {
-    @extend %item;
-  }
-  .record {
-    background: white;
-    @extend %item;
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2)
-  }
-  .notes {
-    margin-right: auto;
-    margin-left: 16px;
-    color: #999;
-  }
-  ::v-deep li.interval-item {
+    justify-content: center;
+    position: relative;
+    height:20px;
+    .icon{
+      position: absolute;
+      background: #f5f5f5;
+      top:10px;
+      width: 40px;
+      height: 40px;
+      padding: 4px;
+      border-radius: 50%;
+      margin-right: 16px;
+    }
 
-    width: 33.33vw;
-    padding: 0 !important;
-    border-radius: 0 !important;
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.25) !important;
+  }
+  .info{
+    display: flex;
+    align-items: center;
+    padding:4px 0;
+    .label-value{
+      width:25vw;
+      .label{
+        display: flex;
+        justify-content: left;
+        font-size:14px;
+        color: #ffffff;
+        margin-bottom: 4px;
+      }
+      .value{
+        span {
+          font-size: 16px;
+        }
+        color:white;
+        font-size: 12px;
+      }
+    }
 
-    &.selected {
-      box-shadow: inset 0 0 0 0 transparent !important;
+    .calender{
+      color:white;
+      position:relative;
+      padding:0 16px;
+      display: flex;
+      flex-direction: column;
+      align-items:center;
+      .select{
+        color:#ffffff;
+        option{
+
+          color:black;
+        }
+      }
+      .year{
+        font-size: 12px;
+        color:#ffffff;
+        padding:0 3px;
+        margin-bottom:5px;
+
+      }
+      .mouth{
+        color:#ffffff;
+        font-size: 12px;
+        padding: 0 3px;
+        display: flex;
+        align-items: center;
+        select {
+
+          font-size: 20px;
+        }
+      }
+      &::after{
+        content:'';
+        width:1px;
+        height:24px;
+        background:#ffffff;
+        position: absolute;
+        display: block;
+        top:50%;
+        right:0;
+        transform: translateY(-50%);
+      }
     }
   }
+  .total{
+    display: flex;
+    flex-grow:1;
+    justify-content: space-between;
+    padding:4px 16px;
+  }
+}
+  .record{
+    > li {
+      .title {
+        font-size: 12px;
+        color: #999999;
+        display: flex;
+        justify-content: space-between;
+        padding: 4px 16px;
+        border-bottom: 1px solid #dddddd;
+      }
 
-  ::v-deep .interval-ul {
-    height: 30px !important;
+      .items {
+        display: flex;
+        flex-direction: column;
+        padding: 12px 16px;
+
+        .item {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 8px 0;
+          box-shadow: inset 0 -0.5px 0.5px -0.5px rgba(0, 0, 0, 0.2);
+
+          .tag {
+            display: flex;
+            align-items: center;
+
+            .icon {
+              background: #f5f5f5;
+              width: 30px;
+              height: 30px;
+              padding: 4px;
+              border-radius: 50%;
+              margin-right: 16px;
+            }
+          }
+        }
+      }
+    }
   }
 </style>
