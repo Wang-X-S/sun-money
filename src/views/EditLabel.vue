@@ -1,30 +1,39 @@
 <template>
-
   <div class="wrapper">
     <header>
       <div class="navBar">
         <Icon name="left"  class="left" @click.native="goBack"/>
-        <div class="tag">
-          <Icon :name="`${tag.name}`" class="middle"/>
-          <span class="title">{{tag.name}}</span>
+        <div class="record">
+          <Icon :name="`${record.tags.toString()}`" class="middle"/>
+          <span class="title">{{record.tags.toString()}}</span>
         </div>
         <span class="right"></span>
       </div>
     </header>
     <main>
       <div class="form-wrapper">
-        <InputBox :value="tag.name" field-name="标签名"
-                  placeholder="在这里输入标签名"
-                  @update:value="updateLabelName"/>
-        <InputBox field-name="日期" placeholder="在这里输入备注"/>
-        <InputBox field-name="备注" placeholder=""/>
-        <InputBox field-name="金额" placeholder=""/>
+        <InputBox :value="judgmentType(record.type)" field-name="类型"
+                  placeholder="在这里输入标签名 "
+                  read="readonly"
+                  />
+        <InputBox :value="dayjs(record.createAt).format('YYYY年MM月DD日')"
+                  field-name="日期" read="readonly"
+        />
+        <InputBox :value="record.notes"
+          field-name="备注" placeholder="请在这里输入备注"
+          @update:value="updateNotes"
+        />
+
+        <InputBox :value="record.amount"
+          field-name="金额" placeholder=""
+          @update:value="updateAmount"
+        />
       </div>
     </main>
     <footer>
       <div class="button-wrapper">
         <button @click="resolve">编辑完成</button>
-        <button class="delete" @click="deleteTag">删除</button>
+        <button class="delete" @click="deleteRecord">删除</button>
       </div>
     </footer>
   </div>
@@ -35,48 +44,87 @@
   import {Component} from 'vue-property-decorator';
   import Notes from '@/components/Money/Notes.vue';
   import InputBox from '@/components/InputBox.vue';
-
+  import dayjs from 'dayjs';
+type RecordItem= {
+    id?:string;
+    tags: string[];
+    notes:string;
+    type:string;
+    amount:number;
+    createAt?:string;
+  }
 
   @Component({
     components: {InputBox, Notes},
 
   })
   export default class EditLabel extends Vue {
-    get tag(){
-      return this.$store.state.currentTag;
+    dayjs=dayjs
+    newRecord:RecordItem={
+      tags:[],
+      notes:'',
+      type:'',
+      amount:0,
+      createAt:new Date().toISOString()
     }
+
     created() {
       const id = this.$route.params.id
-      this.$store.commit('fetchTags',id)
-      this.$store.commit('setCurrentTag',id)
-      if (!this.tag) {
+      this.$store.commit('fetchRecords')
+      this.$store.commit('setCurrentRecord',id)
+      this.newRecord = this.record
+      console.log(this.record)
+      if (!this.record) {
         this.$router.replace('/404');
       }
     }
-    updateLabelName(name: string) {
-      if (this.tag) {
-        this.$store.commit('updateTagName',{id:this.tag.id,name})
-        //TODO
-        //oldStore.updateTagName(this.tag.id,name)
+
+    get record(){
+      return this.$store.state.currentRecord;
+    }
+    beautifyDate(date:string){
+      console.log(date)
+      const day = dayjs(date).format('YYYY-MM-DD')
+      console.log(day)
+    }
+    judgmentType(type:string){
+      if(type==='-'){
+        return '支出'
+      }else{
+        return '收入'
       }
     }
-    deleteTag() {
-      if(this.tag){
-        this.$store.commit('removeTag',this.tag.id)
-        //TODO
+    updateNotes(value:string){
+     if(this.record.notes){
+       this.newRecord.notes= value
+     }
+    }
+    updateAmount(value:number){
+      if(this.record.amount){
+        if(value>=0){
+          this.newRecord.amount = value
+        }else{
+          return window.alert('金额必须是大于0的数字')
+        }
+      }
+    }
+
+    deleteRecord() {
+      if(this.record){
+        this.$store.commit('removeRecord',this.record.id)
         return
-        // if(oldStore.removeTag(this.tag.id)){
-        //   this.$router.back()
-        // }else{
-        //   window.alert('删除失败')
-        // }
       }
     }
     resolve(){
-      console.log('未完成')
+
+      this.$store.commit('updateCurrentRecord',this.newRecord)
+      this.$router.back()
+
+      //TODO
+      // 遇到相同的数字就会消失
     }
     goBack(){
-      this.$router.replace('/labels')
+      this.$router.back()
     }
   }
 </script>
@@ -93,9 +141,9 @@
     background: $color-fontBlue;
     color: #ffffff;
     font-weight: 500;
-    height:12vh;
+    height:13vh;
 
-    > .tag {
+    > .record {
       display: flex;
       flex-direction: column;
       justify-content: center;

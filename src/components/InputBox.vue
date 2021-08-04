@@ -2,10 +2,19 @@
   <div>
     <label class="notes">
       <span class="name">{{this.fieldName}}</span>
-      <input type="text"
+      <input   v-if="read==='readonly'"
+              type="text"
              :placeholder="placeholder"
              :value="value"
               @input="onValueChanged($event.target.value)"
+             readonly
+      />
+      <input   v-else
+               type="text"
+               :placeholder="placeholder"
+               :value="value"
+               @input="onValueChanged($event.target.value)"
+
       />
     </label>
   </div>
@@ -20,8 +29,8 @@
     @Prop({required:true}) fieldName!:string
     @Prop()placeholder?: string
     @Prop({default:''}) readonly value!:string;
-
-    onValueChanged(value:string){
+    @Prop() read!:string
+    onValueChanged(value:string|number){
       this.$emit('update:value',value)
     }
   }

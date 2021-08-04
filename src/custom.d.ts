@@ -2,8 +2,10 @@ interface RootState{
   recordList:RecordItem[],
   tagList: Tag[],
   currentTag ?:Tag
+  currentRecord ?:RecordItem
 }
 interface RecordItem {
+  id?:string;
   tags: string[];
   notes:string;
   type:string;
