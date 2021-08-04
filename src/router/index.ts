@@ -5,6 +5,7 @@ import Labels from '@/views/Labels.vue'
 import NotFound from '@/views/NotFound.vue'
 import EditLabel from '@/views/EditLabel.vue'
 import Statistics from '@/views/Statistics.vue'
+import EditTags from '@/views/EditTags.vue';
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
@@ -28,6 +29,10 @@ const routes: Array<RouteConfig> = [
   {
     path:'/record/edit/:id',
     component:EditLabel
+  },
+  {
+    path:'/editTags',
+    component:EditTags
   },
   {
     path:'*',

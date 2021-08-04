@@ -11,7 +11,9 @@
       </div>
     </div>
     <div class="createTag-wrapper">
-      <button class="createTag" @click="createTag">新建标签</button>
+      <router-link to="/editTags">
+      <button class="createTag" >新建标签</button>
+      </router-link>
     </div>
   </Layout>
 </template>
