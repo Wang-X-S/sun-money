@@ -95,17 +95,13 @@ type RecordItem= {
       }
     }
     updateNotes(value:string){
-     if(this.record.notes){
        this.newRecord.notes= value
-     }
     }
     updateAmount(value:number){
-      if(this.record.amount){
         if(value>=0){
           this.newRecord.amount = value
         }else{
           return window.alert('金额必须是大于0的数字')
-        }
       }
     }
 
@@ -120,8 +116,6 @@ type RecordItem= {
       this.$store.commit('updateCurrentRecord',this.newRecord)
       this.$router.back()
 
-      //TODO
-      // 遇到相同的数字就会消失
     }
     goBack(){
       this.$router.back()

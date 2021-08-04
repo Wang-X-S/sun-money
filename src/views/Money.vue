@@ -46,7 +46,7 @@
     }
 
     saveRecord() {
-      this.$store.commit('createRecord',this.record);
+        this.$store.commit('createRecord',this.record);
     }
 
     onUpdateAmount(value: string) {

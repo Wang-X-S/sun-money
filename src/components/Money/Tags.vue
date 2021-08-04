@@ -17,7 +17,6 @@
         </div>
       </li>
     </ul>
-
   </div>
 </template>
 
@@ -41,6 +40,7 @@
     }
   toggle(tag:string){
     const index = this.selectedTags.indexOf(tag);
+
     if(index>=0){
       this.selectedTags.splice(index,1)
     }else{

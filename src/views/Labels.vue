@@ -57,9 +57,15 @@
         align-items: center;
         border-bottom:1px solid $color-shadow;
         position: relative;
-        >.icon{
-        width: 24px;
-        height:24px;
+        >.left{
+
+            background:  darken(#f2f2f2,10%);
+            width: 30px;
+            height: 30px;
+            padding: 4px;
+            border-radius: 50%;
+            margin-right: 16px;
+
       }
         >.right{
           position: absolute;
