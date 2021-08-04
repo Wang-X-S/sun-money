@@ -2,12 +2,13 @@
   <Layout>
     <Tab :value.sync="type" :data-source="recordTypeList"/>
     <div class="tags">
-      <router-link class="tagsLi" v-for="tag in tags" :key="tag.id"
-                   :to="`/labels/edit/${tag.id}`">
+      <div class="tagsLi" v-for="tag in tags" :key="tag.id">
         <Icon :name="`${tag.name}`" class="left"></Icon>
         <span>{{tag.name}}</span>
-        <Icon name="right" class="right"></Icon>
-      </router-link>
+        <div @click="deleteTag" class="right">
+        <Icon name="垃圾桶"  ></Icon>
+        </div>
+      </div>
     </div>
     <div class="createTag-wrapper">
       <button class="createTag" @click="createTag">新建标签</button>
@@ -36,6 +37,9 @@
     beforeCreate(){
       this.$store.commit('fetchTags')
     }
+  deleteTag(){
+    console.log('123')
+  }
   }
 </script>
 
@@ -68,10 +72,16 @@
 
       }
         >.right{
+          display: flex;
+          align-items: center;
+          justify-content: center;
           position: absolute;
           right:10px;
-          width: 20px;
-          height:20px;
+          .icon{
+            width: 20px;
+            height:20px;
+          }
+
         }
       }
     }
@@ -89,4 +99,5 @@
       justify-content: center;
     }
   }
+
 </style>

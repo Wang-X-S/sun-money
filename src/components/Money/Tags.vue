@@ -9,13 +9,12 @@
           <p>{{tag.name}}</p>
         </div>
       </li>
-
-      <li class="newButton" @click="createTag">
+      <router-link to="/labels" class="editButton" @click="createTag">
         <div class="icon-wrapper">
           <Icon name="label"/>
-          <p>新建标签</p>
+          <p>编辑标签</p>
         </div>
-      </li>
+      </router-link>
     </ul>
   </div>
 </template>
@@ -59,7 +58,29 @@
   .tags::-webkit-scrollbar {
     width: 0 !important
   }
-
+  .editButton{
+    height:12vh;
+    width: 33.333%;
+    padding:10px;
+    >.icon-wrapper{
+      overflow: hidden;
+      height: 50px;
+      border: 2px solid $color-orange;
+      border-radius: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      font-size: 14px;
+      font-weight: 600;
+      .icon {
+        margin-top: 2px;
+        background: #fff;
+        height: 50px;
+        width: 50px;
+      }
+    }
+  }
   .tags {
     flex-grow: 1;
     overflow: auto;

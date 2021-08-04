@@ -49,7 +49,7 @@
             <div class="tag">
               <Icon :name="item.tags" class="icon"></Icon>
               <span>{{item.tags.toString()}}</span>
-              <p class="notes">{{'（ '+item.notes+' ）'}}</p>
+              <p v-if="item.notes" class="notes">{{'（ '+item.notes+' ）'}}</p>
             </div>
             <span>{{getAmount(item)}}</span>
           </router-link>
