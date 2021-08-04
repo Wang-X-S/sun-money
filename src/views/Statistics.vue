@@ -154,12 +154,12 @@
       let total = 0;
       let group:Group;
       for(group of this.groupList){
-        let record:RecordItem
+        let record: RecordItem;
         for(record of group.items){
           if(record.type ==='-'){
-            total += record.amount
+            total -= record.amount
           }else{
-            continue
+            continue;
           }
         }
       }
@@ -237,6 +237,7 @@
 
 <style scoped lang="scss">
 .header{
+  height:13vh;
   background: #18a0fb ;
   .logo{
     display: flex;
@@ -357,7 +358,7 @@
             align-items: center;
 
             .icon {
-              background: #f5f5f5;
+              background:  darken(#f2f2f2,10%);
               width: 30px;
               height: 30px;
               padding: 4px;
