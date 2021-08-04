@@ -49,6 +49,7 @@
             <div class="tag">
               <Icon :name="item.tags" class="icon"></Icon>
               <span>{{item.tags.toString()}}</span>
+              <p class="notes">{{'（ '+item.notes+' ）'}}</p>
             </div>
             <span>{{getAmount(item)}}</span>
           </router-link>
@@ -90,6 +91,13 @@
     year = window.sessionStorage.getItem('year') || dayjs().year().toString();
     month = window.sessionStorage.getItem('month') || (dayjs().month() + 1).toString();
 
+
+    created() {
+      this.$store.commit('fetchRecords');
+    }
+    updated() {
+      this.$store.commit('fetchRecords');
+    }
     get recordList() {
       return (this.$store.state as RootState).recordList;
     }
@@ -139,16 +147,17 @@
       let total = 0;
       let group:Group;
       for(group of this.groupList){
-        let record: RecordItem;
+        let record :RecordItem
         for(record of group.items){
           if(record.type ==='+'){
-            total += record.amount
+            const amount = record.amount
+            total -= amount
           }else{
             continue;
           }
         }
       }
-      return total
+      return -total
     }
     get totalExpense(){
       let total = 0;
@@ -165,7 +174,26 @@
       }
       return total
     }
+    getTotal(group:Group){
+      let expendTotal = 0;
+      let incomeTotal = 0
+      let total = 0
+      let item:RecordItem;
+      for(item of group.items){
+        if(item.type==='-'){
+          expendTotal -= item.amount
+        }else if(item.type === '+'){
+          incomeTotal +=Number(item.amount)
+        }
+      }
+      total = expendTotal+incomeTotal
 
+      if(total<=0){
+        return `支出:￥${Math.abs(total)}`
+      }else{
+        return `收入:￥${Math.abs(total)}`
+      }
+    }
     beautifyMonth(m:number){
       return m<10 ?'0'+m.toString() :m.toString()
     }
@@ -197,22 +225,7 @@
         return `${day.format('YYYY年M月')}`
       }
     }
-    getTotal(group:Group){
-      let total = 0;
-      let item:RecordItem;
-      for(item of group.items){
-        if(item.type==='-'){
-          total -= item.amount
-        }else if(item.type === '+'){
-          total += item.amount
-        }
-      }
-      if(total<=0){
-        return `支出:￥${Math.abs(total)}`
-      }else{
-        return `收入:￥${Math.abs(total)}`
-      }
-    }
+
     getAmount(record:RecordItem){
       if(record.type==='+'){
         return '+'+record.amount
@@ -221,9 +234,7 @@
       }
     }
 
-    created() {
-      this.$store.commit('fetchRecords');
-    }
+
     @Watch('year')
     saveYear(year:string){
       window.sessionStorage.setItem('year',year)
@@ -236,6 +247,11 @@
 </script>
 
 <style scoped lang="scss">
+  .notes{
+    font-size: 12px;
+    margin-left: 10px;
+    color: #999999;
+  }
 .header{
   height:13vh;
   background: #18a0fb ;
