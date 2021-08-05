@@ -10,7 +10,7 @@
         </div>
       </li>
       <router-link to="/labels" class="editButton" @click="createTag">
-        <div class="icon-wrapper">
+        <div class="icon-wrapper" v-if="incomeType">
           <Icon name="label"/>
           <p>编辑标签</p>
         </div>
@@ -35,6 +35,7 @@
   @Component({})
   export default class Tags extends mixins(TagHelper) {
     @Prop() tagList!:Tag[]
+    @Prop() incomeType!:string
     defaultExpendTags = defaultExpendTags;
     defaultIncomeTags = defaultIncomeTags;
     selectedTags: string[] = [];

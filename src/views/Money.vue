@@ -4,7 +4,8 @@
       <Tab :data-source="recordTypeList" :value.sync="record.type"/>
       <Notes @update:value="onUpdateNotes"/>
       <Tags  :tag-list="defaultIncomeTags"  v-if="record.type==='+'" @update:value="onUpdateTags"/>
-      <Tags  :tag-list="tagList"  v-if="record.type==='-'" @update:value="onUpdateTags"/>
+      <Tags  :tag-list="tagList"  v-if="record.type==='-'"
+             income-type="income" @update:value="onUpdateTags"/>
       <NumberPad @update:value="onUpdateAmount" @submit="saveRecord"/>
     </Layout>
 
