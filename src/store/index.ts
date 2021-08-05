@@ -4,13 +4,14 @@ import clone from '@/lib/clone';
 import createId from '@/lib/createId';
 import recordId from '@/lib/recordId';
 import router from '@/router';
+import {defaultExpendTags} from '@/contants/defaultTag.ts';
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
     recordList: [] ,
-    tagList:[] ,
+    tagList: [],
     currentTag :undefined,
     currentRecord: undefined,
   } as RootState,
@@ -85,7 +86,7 @@ const store = new Vuex.Store({
       state.currentTag = state.tagList.filter(t=>t.id ===id)[0]
     },
     fetchTags(state){
-      state.tagList =  JSON.parse(window.localStorage.getItem('tagList')||'[]');
+      state.tagList =  JSON.parse(window.localStorage.getItem('tagList')||'0')||defaultExpendTags;
     },
     createTag(state,name:string){
       const names = state.tagList.map(item=>item.name)

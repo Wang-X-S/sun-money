@@ -3,7 +3,8 @@
     <Layout class-prefix="layout">
       <Tab :data-source="recordTypeList" :value.sync="record.type"/>
       <Notes @update:value="onUpdateNotes"/>
-      <Tags  @update:value="onUpdateTags"/>
+      <Tags  :tag-list="defaultIncomeTags"  v-if="record.type==='+'" @update:value="onUpdateTags"/>
+      <Tags  :tag-list="tagList"  v-if="record.type==='-'" @update:value="onUpdateTags"/>
       <NumberPad @update:value="onUpdateAmount" @submit="saveRecord"/>
     </Layout>
 
@@ -18,7 +19,10 @@
   import {Component} from 'vue-property-decorator';
   import Tab from '@/components/Tab.vue';
   import recordTypeList from '@/contants/recordTypeList'
-
+  import {
+    defaultExpendTags,
+    defaultIncomeTags,
+  } from '@/contants/defaultTag.ts';
 
   type RecordItem = {
     tags: string[];
@@ -27,22 +31,36 @@
     amount: number;
     createdAt?: string
   }
-
+  type Tag= {
+    id:string;
+    name:string;
+  }
   @Component({
     components: {Tab, NumberPad, Notes, Tags},
   })
 
   export default class Money extends Vue {
+    defaultExpendTags = defaultExpendTags;
+    defaultIncomeTags = defaultIncomeTags;
+
     recordTypeList = recordTypeList
     get recordList(){
       return this.$store.state.recordList;
+    }
+    get tagList() :Tag[]{
+      return this.$store.state.tagList;
     }
 
     record: RecordItem = {
       tags: [], notes: '', type: '-', amount: 0
     };
+
     created(){
       this.$store.commit('fetchRecords')
+      this.$store.commit('fetchTags')
+      console.log(defaultIncomeTags);
+      console.log(this.tagList);
+
     }
 
     saveRecord() {

@@ -89,7 +89,7 @@
     components: {TagList}
   })
   export default class EditTags extends Vue {
-    tag:Tag={id:'',name:''}
+    tag:Tag={id:'1',name:'宠物'}
     defaultExpendTags = defaultExpendTags;
     defaultIncomeTags = defaultIncomeTags;
     liveTag = liveTag;
