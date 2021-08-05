@@ -5,7 +5,7 @@
       <div class="tagsLi" v-for="tag in tags" :key="tag.id">
         <Icon :name="`${tag.name}`" class="left"></Icon>
         <span>{{tag.name}}</span>
-        <div @click="deleteTag" class="right">
+        <div @click="deleteTag(tag)" class="right">
         <Icon name="垃圾桶"  ></Icon>
         </div>
       </div>
@@ -25,7 +25,10 @@
   import TagHelper from '@/mixins/TagHelper';
   import Tab from '@/components/Tab.vue';
   import recordTypeList from '@/contants/recordTypeList'
-
+  type Tag= {
+    id:string;
+    name:string;
+  }
   @Component({
     components:{Tab},
   })
@@ -39,8 +42,9 @@
     beforeCreate(){
       this.$store.commit('fetchTags')
     }
-  deleteTag(){
-    console.log('123')
+  deleteTag(tag:Tag){
+    this.$store.commit('removeTag',tag.id)
+
   }
   }
 </script>

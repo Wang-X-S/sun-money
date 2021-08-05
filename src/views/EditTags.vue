@@ -6,7 +6,7 @@
             <Icon name="left" />
           </div>
           <div>添加标签</div>
-          <div class="resolve" @click="resolve">完成</div>
+          <div class="resolve" @click="resolve(tag)">完成</div>
         </div>
         <div class="downHead">
           <div class="tagHead">
@@ -98,14 +98,12 @@
     digit = digit;
     outdoors = outdoors;
     shopping = shopping;
-    updated(){
-      console.log(this.tag);
-    }
+
     goBack() {
       this.$router.back();
     }
-    resolve(){
-      console.log('ok');
+    resolve(tag:Tag){
+      this.$store.commit('createTag',tag)
     }
   }
 </script>

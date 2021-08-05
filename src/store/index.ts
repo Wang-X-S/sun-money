@@ -61,7 +61,7 @@ const store = new Vuex.Store({
       const index = idList.indexOf(id)
       state.tagList.splice(index,1)
       store.commit('saveTags')
-      router.back()
+
 
     },
     updateTagName(state,payload:{id:string,name:string}){
@@ -88,15 +88,18 @@ const store = new Vuex.Store({
     // fetchTags(state){
     //   state.tagList =
     // },
-    createTag(state,name:string){
-      const names = state.tagList.map(item=>item.name)
-      if(names.indexOf(name)>=0){
+    createTag(state,tag){
+      const id = state.tagList.map(item=>item.id)
+      if(id.indexOf(tag.id)>=0){
         window.alert('标签名重复')
+      }else{
+        state.tagList.push(tag);
+        store.commit('saveTags')
+        window.alert('添加成功')
+        router.back()
       }
-      const id = createId().toString()
-      state.tagList.push({id: id, name: name});
-      store.commit('saveTags')
-      window.alert('添加成功')
+
+
     },
     saveTags(state){
       window.localStorage.setItem('tagList',JSON.stringify(state.tagList))
