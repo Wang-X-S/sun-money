@@ -7,15 +7,19 @@
       <div class="info">
         <div class="calender">
           <div class="year">
-          <select v-model="year" class="select">
-            <option v-for="y in years" :key="y" :value="y">{{y}}</option>
-          </select>
-          <span>年</span>
+            <label>
+              <select v-model="year" class="select">
+                <option v-for="y in years" :key="y" :value="y">{{y}}</option>
+              </select>
+            </label>
+            <span>年</span>
           </div>
           <div class="mouth">
-            <select v-model="month" class="select">
-              <option v-for="m in 12" :key="m" :value="m">{{beautifyMonth(m)}}</option>
-            </select>
+            <label>
+              <select  v-model="month"  class="select">
+                <option v-for="m in 12" :key="m" :value="m">{{beautifyMonth(m)}}</option>
+              </select>
+            </label>
             <span>月</span>
           </div>
         </div>
@@ -95,13 +99,11 @@
     month = window.sessionStorage.getItem('month') || (dayjs().month() + 1).toString();
 
 
-    created() {
+    beforeCreate() {
       this.$store.commit('fetchRecords');
 
     }
-    updated() {
-      this.$store.commit('fetchRecords');
-    }
+
     get recordList() {
       return (this.$store.state as RootState).recordList;
 
@@ -116,6 +118,7 @@
         .sort((b, a) => {
           return dayjs(a.createAt).valueOf() - dayjs(b.createAt).valueOf();
         });
+      console.log(sortedRecordList)
       let record: RecordItem;
       for (record of sortedRecordList) {
         let date: string;

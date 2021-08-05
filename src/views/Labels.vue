@@ -1,6 +1,6 @@
 <template>
   <Layout>
-    <Tab :value.sync="type" :data-source="recordTypeList"/>
+    <header><span>编辑标签</span></header>
     <div class="tags">
       <div class="tagsLi" v-for="tag in tags" :key="tag.id">
         <Icon :name="`${tag.name}`" class="left"></Icon>
@@ -41,6 +41,7 @@
 
     beforeCreate(){
       this.$store.commit('fetchTags')
+      this.$store.commit('fetchRecords')
     }
   deleteTag(tag:Tag){
     this.$store.commit('removeTag',tag.id)
@@ -51,6 +52,17 @@
 
 <style scoped lang="scss">
   @import '~@/assets/style/helper.scss';
+  header{
+    height:50px;
+    background: #f7f7f7;
+    border-bottom: 1px solid darken(#f7f7f7,10%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    >span{
+      font-weight: 500;
+    }
+  }
   .tags::-webkit-scrollbar {
     width: 0 !important
   }
