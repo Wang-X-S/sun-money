@@ -56,7 +56,7 @@
         </div>
       </li>
     </ul>
-
+    <Blank v-if="groupList.length===0"/>
   </Layout>
 </template>
 
@@ -65,6 +65,7 @@
   import {Component,Watch} from 'vue-property-decorator';
   import dayjs from 'dayjs'
   import clone from '@/lib/clone';
+  import Blank from '@/components/Blank.vue';
 
   type Group={
     name:string;
@@ -86,7 +87,9 @@
     id: string;
     name: string;
   }
-  @Component({  })
+  @Component({
+    components: {Blank}
+  })
   export default class Statistics extends Vue {
     year = window.sessionStorage.getItem('year') || dayjs().year().toString();
     month = window.sessionStorage.getItem('month') || (dayjs().month() + 1).toString();
@@ -94,12 +97,14 @@
 
     created() {
       this.$store.commit('fetchRecords');
+
     }
     updated() {
       this.$store.commit('fetchRecords');
     }
     get recordList() {
       return (this.$store.state as RootState).recordList;
+
     }
     get groupList() {
       const result: Group[] = [];
@@ -133,6 +138,7 @@
 
     }
     get years(){
+
       const endYear = dayjs().year()
       let y =2000
       let result:number[]=[]

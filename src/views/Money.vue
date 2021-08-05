@@ -59,8 +59,6 @@
     created(){
       this.$store.commit('fetchRecords')
       this.$store.commit('fetchTags')
-      console.log(defaultIncomeTags);
-      console.log(this.tagList);
 
     }
 

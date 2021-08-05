@@ -98,7 +98,7 @@
   .tags {
     flex-grow: 1;
     overflow: auto;
-    margin: 5px;
+    margin: 0px;
 
     > .current {
       padding: 0 10px;
