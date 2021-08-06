@@ -118,7 +118,6 @@
         .sort((b, a) => {
           return dayjs(a.createAt).valueOf() - dayjs(b.createAt).valueOf();
         });
-      console.log(sortedRecordList)
       let record: RecordItem;
       for (record of sortedRecordList) {
         let date: string;
