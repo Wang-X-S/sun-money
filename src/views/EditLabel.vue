@@ -172,11 +172,11 @@ type RecordItem= {
     justify-content: center;
     align-items: center;
     flex-direction: row;
-
+    width: 100%;
     button {
       border: none;
       box-shadow: 0 0 3px $color-shadow;
-      width: 50vw;
+      width: 50%;
       height: 10vh;
       background: #ffffff;;
     }
