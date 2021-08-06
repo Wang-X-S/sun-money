@@ -4,6 +4,9 @@
 const path = require('path')
 
 module.exports = {
+  publicPath: process.env.NODE_ENV === 'production'
+    ? '/sun-money-dev/'
+    : '/',
   // chainWebpack 链式语法
   chainWebpack: config => {
     // 定位存放svg的目录
