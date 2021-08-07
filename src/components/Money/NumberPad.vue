@@ -1,6 +1,9 @@
 <template>
   <div class="numberPad">
-    <div class="output">{{output ||'0'}}</div>
+    <div class="output">
+      <button @click="changeDate"><Icon name="日历" class="dateIcon"/>
+    </button>
+      {{output ||'0'}}</div>
     <div class="buttons">
       <button @click="inputContent">1</button>
       <button @click="inputContent">2</button>
@@ -9,7 +12,7 @@
       <button @click="inputContent">4</button>
       <button @click="inputContent">5</button>
       <button @click="inputContent">6</button>
-      <button @click="clear">清空</button>
+      <button @click="empty">清空</button>
       <button @click="inputContent">7</button>
       <button @click="inputContent">8</button>
       <button @click="inputContent">9</button>
@@ -22,9 +25,11 @@
 
 <script lang="ts">
   import Vue from 'vue'
-  import {Component} from 'vue-property-decorator';
+  import {Component,Prop} from 'vue-property-decorator';
   @Component
   export default class NumberPad extends Vue{
+    @Prop() dateType!:boolean
+    changeType=false
     output='0';
     inputContent(event:MouseEvent){
       const button = (event.target as HTMLButtonElement)
@@ -44,11 +49,19 @@
       this.output+=input
 
     }
+    empty(){
+      this.output='0'
+    }
     remove(){
       this.output=this.output.slice(0,-1)
     }
-    clear(){
-      this.output='0'
+    changeDate(){
+      if(!this.dateType){
+        this.changeType=true
+      }else{
+        this.changeType=false
+      }
+      this.$emit('update:changeType',this.changeType)
     }
     ok(){
       const number = parseFloat(this.output)
@@ -56,8 +69,6 @@
       this.$emit('submit',number)
       this.output = '0'
     }
-
-
   }
 </script>
 
@@ -72,7 +83,16 @@
       text-align: right;
       color:$color-orange;
       background: #ffffff;
-      min-height: 56.8px;
+      max-height: 56.8px;
+      position: relative;
+      >button{
+        height:30px;
+        width:30px;
+        background: transparent;
+        position: absolute;
+        left:10px;
+        border: none;
+      }
     }
 
     > .buttons {
@@ -80,6 +100,10 @@
       @extend %clearFix;
 
       > button {
+        .dateIcon{
+          width:30px;
+          height:30px;
+        }
         background: transparent;
         //border: none;
         width: 25%;

@@ -15,9 +15,11 @@
 
   @Component
   export default class CalendarInput extends Vue {
-  @Prop() calender!:string
+  @Prop()  calender!:string
   onValueChanged(date:string){
-    this.$emit('update:date',date)
+
+      this.$emit('update:date',date)
+
   }
 
   }
@@ -58,3 +60,4 @@
     }
   }
 </style>
+

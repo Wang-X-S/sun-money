@@ -103,7 +103,6 @@
 
     beforeCreate() {
       this.$store.commit('fetchRecords');
-
     }
 
     get recordList() {

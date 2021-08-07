@@ -67,7 +67,7 @@ type RecordItem= {
       notes:'',
       type:'',
       amount:0,
-      createAt:new Date().toISOString()
+      createAt:this.record.createAt
     }
 
     created() {
@@ -94,7 +94,9 @@ type RecordItem= {
       }
     }
     updateCalender(value:string){
+      if(value){
       this.newRecord.createAt=value
+      }
     }
     updateNotes(value:string){
        this.newRecord.notes= value
