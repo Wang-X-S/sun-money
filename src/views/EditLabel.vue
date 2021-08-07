@@ -75,7 +75,6 @@ type RecordItem= {
       this.$store.commit('fetchRecords')
       this.$store.commit('setCurrentRecord',id)
       this.newRecord = this.record
-      console.log(this.record)
       if (!this.record) {
         this.$router.replace('/404');
       }
@@ -85,9 +84,7 @@ type RecordItem= {
       return this.$store.state.currentRecord;
     }
     beautifyDate(date:string){
-      console.log(date)
       const day = dayjs(date).format('YYYY-MM-DD')
-      console.log(day)
     }
     judgmentType(type:string){
       if(type==='-'){
@@ -97,7 +94,6 @@ type RecordItem= {
       }
     }
     updateCalender(value:string){
-      console.log(new Date(value).toISOString())
       this.newRecord.createAt=value
     }
     updateNotes(value:string){
