@@ -76,6 +76,7 @@
 
     }
     onUpdateCreateAt(value:string){
+      if(!value)return
       this.record.createAt= new Date(value).toISOString()
     }
     onUpdateAmount(value: string) {
