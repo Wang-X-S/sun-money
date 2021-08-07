@@ -16,9 +16,10 @@
                   placeholder="在这里输入标签名 "
                   read="readonly"
                   />
-        <InputBox :value="dayjs(record.createAt).format('YYYY年MM月DD日')"
-                  field-name="日期" read="readonly"
+        <CalendarInput  @update:date="updateCalender"
+          :calender="dayjs(record.createAt).format('YYYY-MM-DDTHH:mm')"
         />
+
         <InputBox :value="record.notes"
           field-name="备注" placeholder="请在这里输入备注"
           @update:value="updateNotes"
@@ -45,6 +46,7 @@
   import Notes from '@/components/Money/Notes.vue';
   import InputBox from '@/components/InputBox.vue';
   import dayjs from 'dayjs';
+  import CalendarInput from '@/components/CalendarInput.vue';
 type RecordItem= {
     id?:string;
     tags: string[];
@@ -55,7 +57,7 @@ type RecordItem= {
   }
 
   @Component({
-    components: {InputBox, Notes},
+    components: {CalendarInput, InputBox, Notes},
 
   })
   export default class EditLabel extends Vue {
@@ -93,6 +95,10 @@ type RecordItem= {
       }else{
         return '收入'
       }
+    }
+    updateCalender(value:string){
+      console.log(new Date(value).toISOString())
+      this.newRecord.createAt=value
     }
     updateNotes(value:string){
        this.newRecord.notes= value
@@ -185,5 +191,7 @@ type RecordItem= {
       color: red;
     }
   }
+
+
 
 </style>

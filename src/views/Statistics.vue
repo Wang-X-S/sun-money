@@ -1,4 +1,5 @@
 <template>
+  <div class="all">
   <Layout>
     <header class="header">
       <div class="logo">
@@ -62,6 +63,7 @@
     </ul>
     <Blank v-if="groupList.length===0"/>
   </Layout>
+  </div>
 </template>
 
 <script lang="ts">
@@ -255,6 +257,9 @@
 </script>
 
 <style scoped lang="scss">
+  .all{
+
+  }
   .notes{
     font-size: 12px;
     margin-left: 10px;
@@ -263,6 +268,7 @@
 .header{
   height:13vh;
   background: #18a0fb ;
+  width:100%;
   .logo{
     display: flex;
     justify-content: center;
