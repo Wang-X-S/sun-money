@@ -67,7 +67,7 @@ type RecordItem= {
       notes:'',
       type:'',
       amount:0,
-      createAt:this.record.createAt
+      createAt:''
     }
 
     created() {
@@ -94,9 +94,7 @@ type RecordItem= {
       }
     }
     updateCalender(value:string){
-      if(value){
       this.newRecord.createAt=value
-      }
     }
     updateNotes(value:string){
        this.newRecord.notes= value
@@ -116,6 +114,10 @@ type RecordItem= {
       }
     }
     resolve(){
+      if(!this.newRecord.createAt){
+        window.alert('请选择日期')
+        return
+      }
 
       this.$store.commit('updateCurrentRecord',this.newRecord)
       this.$router.back()
