@@ -35,12 +35,13 @@
         </div>
       </div>
       <div class="wrapper">
-        <div class="total">
-          总计{{incomeAmount+expendAmount}}
+        <div :class="{expend:this.incomeAmount<this.expendAmount,income:this.incomeAmount>this.expendAmount}">
+          总计:{{incomeAmount+expendAmount}}
         </div>
       </div>
     </div>
-    <v-chart class="chart" :option="option"/>
+    <Chart v-if="chartData.length>0" :options="x"/>
+    <Blank v-else />
   </Layout>
 </template>
 
@@ -52,24 +53,7 @@
   import dayjs from 'dayjs';
   import Chart from '@/components/Chart.vue';
   import clone from '@/lib/clone';
-
-  import 'echarts';
-  import {use} from 'echarts/core';
-  import {CanvasRenderer} from 'echarts/renderers';
-  import {PieChart} from 'echarts/charts';
-  import {
-    TitleComponent,
-    TooltipComponent,
-    LegendComponent
-  } from 'echarts/components';
-  import VChart, {THEME_KEY} from 'vue-echarts';
-  use([
-    CanvasRenderer,
-    PieChart,
-    TitleComponent,
-    TooltipComponent,
-    LegendComponent
-  ]);
+  import Blank from '@/components/Blank.vue';
 
   type RecordItem = {
     tags: string[];
@@ -92,7 +76,7 @@
     name:string,
   }
   @Component({
-    components: {Chart, Tab,VChart}
+    components: {Blank, Chart, Tab}
   })
   export default class EchartsPage extends Vue {
     year = window.sessionStorage.getItem('year') || dayjs().year().toString();
@@ -103,7 +87,6 @@
     get chartData(){
       let array:ChartContent[]=[]
       const result=this.groupTypeList.map(r=>({  value:r.amount,name:r.tags[0] }))
-      console.log(result)
       for(let i=0;i<result.length;i++) {
         let index =  array.findIndex(item => {
           return  item.name===result[i].name
@@ -138,8 +121,47 @@
       //     result.push(sortedRecordList[i])
       //   }
       // }
-      console.log(sortedRecordList);
+
       return sortedRecordList
+    }
+    get x (){
+      return{
+        tooltip: {
+          trigger: 'item'
+        },
+        legend: {
+          top: '5%',
+          left: 'center'
+        },
+        series: [
+          {
+            name: '访问来源',
+            type: 'pie',
+            radius: ['40%', '70%'],
+            avoidLabelOverlap: false,
+            itemStyle: {
+              borderRadius: 10,
+              borderColor: '#fff',
+              borderWidth: 2
+            },
+            label: {
+              show: false,
+              position: 'center'
+            },
+            emphasis: {
+              label: {
+                show: true,
+                fontSize: '40',
+                fontWeight: 'bold'
+              }
+            },
+            labelLine: {
+              show: false
+            },
+            data: this.chartData
+          }
+        ]
+      };
     }
     option = {
       tooltip: {
@@ -178,9 +200,6 @@
         }
       ]
     };
-
-
-
     get groupTypeList(){
       let result =[]
       for(let i = 0;i<this.groupList.length;i++){
@@ -229,11 +248,13 @@
         result.push(month);
         month++;
       }
+
       return result;
     }
     @Watch('year')
     saveYear(year:string){
       window.sessionStorage.setItem('year',year)
+
     }
     @Watch('month')
     saveMonth(month:string){
@@ -323,8 +344,6 @@
       }
     }
 
-    .total {
-      color: #ee6666
-    }
+
   }
 </style>

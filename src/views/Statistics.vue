@@ -256,7 +256,6 @@
 
 <style scoped lang="scss">
   .all{
-
   }
   .notes{
     font-size: 12px;
@@ -289,7 +288,7 @@
     align-items: center;
     padding:4px 0;
     .label-value{
-      width:25vw;
+
       .label{
         display: flex;
         justify-content: left;

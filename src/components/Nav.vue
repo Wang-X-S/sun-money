@@ -4,13 +4,15 @@
       <Icon name="money"/>
       记账</router-link>
 
-    <router-link to="/echarts" class="item" active-class="selected">
-      <Icon name="label"/>
-      标签</router-link>
-
     <router-link to="/statistics" class="item" active-class="selected">
-      <Icon name="statistics" />
-      统计</router-link>
+      <Icon name="明细"/>
+      明细</router-link>
+    <router-link to="/echarts" class="item" active-class="selected">
+
+      <Icon name="图表" />
+      图表</router-link>
+
+
   </nav>
 </template>
 
