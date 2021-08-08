@@ -40,9 +40,7 @@
         </div>
       </div>
     </div>
-    {{x}}
-<!--    <Chart/>-->
-<!--    {{groupTypeList}}-->
+    <v-chart class="chart" :option="option"/>
   </Layout>
 </template>
 
@@ -54,6 +52,25 @@
   import dayjs from 'dayjs';
   import Chart from '@/components/Chart.vue';
   import clone from '@/lib/clone';
+
+  import 'echarts';
+  import {use} from 'echarts/core';
+  import {CanvasRenderer} from 'echarts/renderers';
+  import {PieChart} from 'echarts/charts';
+  import {
+    TitleComponent,
+    TooltipComponent,
+    LegendComponent
+  } from 'echarts/components';
+  import VChart, {THEME_KEY} from 'vue-echarts';
+  use([
+    CanvasRenderer,
+    PieChart,
+    TitleComponent,
+    TooltipComponent,
+    LegendComponent
+  ]);
+
   type RecordItem = {
     tags: string[];
     notes: string;
@@ -71,17 +88,37 @@
     name: string;
   }
   type ChartContent={
+    value:number,
     name:string,
-    amount:number
   }
   @Component({
-    components: {Chart, Tab}
+    components: {Chart, Tab,VChart}
   })
   export default class EchartsPage extends Vue {
     year = window.sessionStorage.getItem('year') || dayjs().year().toString();
     month = window.sessionStorage.getItem('month') || dayjs().month().toString();
     recordTypeList = recordTypeList;
     type='-'
+
+    get chartData(){
+      let array:ChartContent[]=[]
+      const result=this.groupTypeList.map(r=>({  value:r.amount,name:r.tags[0] }))
+      console.log(result)
+      for(let i=0;i<result.length;i++) {
+        let index =  array.findIndex(item => {
+          return  item.name===result[i].name
+        })
+        if(index>=0){
+          array[index].value+=result[i].value
+        }else{
+          array.push(result[i])
+        }
+      }
+      return array
+    }
+    get chartName(){
+      return  this.chartData.map(item=>item.name)
+    }
 
     get recordList() {
       return (this.$store.state as RootState).recordList;
@@ -104,6 +141,46 @@
       console.log(sortedRecordList);
       return sortedRecordList
     }
+    option = {
+      tooltip: {
+        trigger: 'item'
+      },
+      legend: {
+        top: '5%',
+        left: 'center'
+      },
+      series: [
+        {
+          name: '访问来源',
+          type: 'pie',
+          radius: ['40%', '70%'],
+          avoidLabelOverlap: false,
+          itemStyle: {
+            borderRadius: 10,
+            borderColor: '#fff',
+            borderWidth: 2
+          },
+          label: {
+            show: false,
+            position: 'center'
+          },
+          emphasis: {
+            label: {
+              show: true,
+              fontSize: '40',
+              fontWeight: 'bold'
+            }
+          },
+          labelLine: {
+            show: false
+          },
+          data: this.chartData
+        }
+      ]
+    };
+
+
+
     get groupTypeList(){
       let result =[]
       for(let i = 0;i<this.groupList.length;i++){
@@ -113,22 +190,7 @@
       }
       return result
     }
-    get x(){
-      let array:ChartContent[]=[]
-      const result=this.groupTypeList.map(r=>({name:r.tags[0] ,amount:r.amount}))
-      console.log(result)
-      for(let i=0;i<result.length;i++) {
-        let index =  array.findIndex(item => {
-        return  item.name===result[i].name
-        })
-        if(index>=0){
-          array[index].amount+=result[i].amount
-        }else{
-          array.push(result[i])
-        }
-      }
-      return array
-    }
+
 
     get incomeAmount(){
       let total =0
@@ -177,10 +239,14 @@
     saveMonth(month:string){
       window.sessionStorage.setItem('month',month)
     }
-  }
+}
 </script>
 
 <style scoped lang="scss">
+  .chart{
+    width: 100%;
+    height:400px;
+  }
   .info {
     margin-top: 5px;
 
