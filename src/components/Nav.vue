@@ -4,7 +4,7 @@
       <Icon name="money"/>
       记账</router-link>
 
-    <router-link to="/labels" class="item" active-class="selected">
+    <router-link to="/echarts" class="item" active-class="selected">
       <Icon name="label"/>
       标签</router-link>
 

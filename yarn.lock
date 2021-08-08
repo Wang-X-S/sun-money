@@ -1795,6 +1795,13 @@
   optionalDependencies:
     prettier "^1.18.2"
 
+"@vue/composition-api@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.nlark.com/@vue/composition-api/download/@vue/composition-api-1.0.5.tgz#c7cef457284096e75cc0894e0cb9a251f91eba3f"
+  integrity sha1-x870VyhAludcwIlODLmiUfkeuj8=
+  dependencies:
+    tslib "^2.3.0"
+
 "@vue/eslint-config-typescript@^7.0.0":
   version "7.0.0"
   resolved "https://registry.npm.taobao.org/@vue/eslint-config-typescript/download/@vue/eslint-config-typescript-7.0.0.tgz#220c70c2edf7a253e739298525f4d401b8ef0038"
@@ -3499,13 +3506,6 @@ create-hmac@^1.1.0, create-hmac@^1.1.4, create-hmac@^1.1.7:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-cross-env@^7.0.3:
-  version "7.0.3"
-  resolved "https://registry.nlark.com/cross-env/download/cross-env-7.0.3.tgz#865264b29677dc015ba8418918965dd232fc54cf"
-  integrity sha1-hlJkspZ33AFbqEGJGJZd0jL8VM8=
-  dependencies:
-    cross-spawn "^7.0.1"
-
 cross-spawn@^5.0.1:
   version "5.1.0"
   resolved "https://registry.nlark.com/cross-spawn/download/cross-spawn-5.1.0.tgz#e8bd0efee58fcff6f8f94510a0a554bbfa235449"
@@ -3526,7 +3526,7 @@ cross-spawn@^6.0.0, cross-spawn@^6.0.5:
     shebang-command "^1.2.0"
     which "^1.2.9"
 
-cross-spawn@^7.0.0, cross-spawn@^7.0.1:
+cross-spawn@^7.0.0:
   version "7.0.3"
   resolved "https://registry.nlark.com/cross-spawn/download/cross-spawn-7.0.3.tgz#f73a85b9d5d41d045551c177e2882d4ac85728a6"
   integrity sha1-9zqFudXUHQRVUcF34ogtSshXKKY=
@@ -4164,6 +4164,14 @@ ecc-jsbn@~0.1.1:
   dependencies:
     jsbn "~0.1.0"
     safer-buffer "^2.1.0"
+
+echarts@^5.1.2:
+  version "5.1.2"
+  resolved "https://registry.nlark.com/echarts/download/echarts-5.1.2.tgz#aa1ab0cef5b74fa2f7c620261a5f286893d30fd1"
+  integrity sha1-qhqwzvW3T6L3xiAmGl8oaJPTD9E=
+  dependencies:
+    tslib "2.0.3"
+    zrender "5.1.1"
 
 editorconfig@^0.15.3:
   version "0.15.3"
@@ -9157,6 +9165,11 @@ requires-port@^1.0.0:
   resolved "https://registry.nlark.com/requires-port/download/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
   integrity sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8=
 
+resize-detector@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.nlark.com/resize-detector/download/resize-detector-0.3.0.tgz#fe495112e184695500a8f51e0389f15774cb1cfc"
+  integrity sha1-/klREuGEaVUAqPUeA4nxV3TLHPw=
+
 resolve-cwd@^2.0.0:
   version "2.0.0"
   resolved "https://registry.nlark.com/resolve-cwd/download/resolve-cwd-2.0.0.tgz#00a9f7387556e27038eae232caa372a6a59b665a"
@@ -10432,10 +10445,20 @@ tsconfig@^7.0.0:
     strip-bom "^3.0.0"
     strip-json-comments "^2.0.0"
 
+tslib@2.0.3:
+  version "2.0.3"
+  resolved "https://registry.nlark.com/tslib/download/tslib-2.0.3.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.nlark.com%2Ftslib%2Fdownload%2Ftslib-2.0.3.tgz#8e0741ac45fc0c226e58a17bfc3e64b9bc6ca61c"
+  integrity sha1-jgdBrEX8DCJuWKF7/D5kubxsphw=
+
 tslib@^1.8.0, tslib@^1.8.1, tslib@^1.9.0:
   version "1.14.1"
   resolved "https://registry.nlark.com/tslib/download/tslib-1.14.1.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.nlark.com%2Ftslib%2Fdownload%2Ftslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha1-zy04vcNKE0vK8QkcQfZhni9nLQA=
+
+tslib@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.nlark.com/tslib/download/tslib-2.3.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.nlark.com%2Ftslib%2Fdownload%2Ftslib-2.3.0.tgz#803b8cdab3e12ba581a4ca41c8839bbb0dacb09e"
+  integrity sha1-gDuM2rPhK6WBpMpByIObuw2ssJ4=
 
 tslint@^5.20.1:
   version "5.20.1"
@@ -10798,6 +10821,19 @@ vue-class-component@^7.2.3:
   version "7.2.6"
   resolved "https://registry.npm.taobao.org/vue-class-component/download/vue-class-component-7.2.6.tgz#8471e037b8e4762f5a464686e19e5afc708502e4"
   integrity sha1-hHHgN7jkdi9aRkaG4Z5a/HCFAuQ=
+
+vue-demi@^0.11.2:
+  version "0.11.2"
+  resolved "https://registry.nlark.com/vue-demi/download/vue-demi-0.11.2.tgz#faa06da53887c493a695b997f4fcb4784a667990"
+  integrity sha1-+qBtpTiHxJOmlbmX9Py0eEpmeZA=
+
+vue-echarts@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.nlark.com/vue-echarts/download/vue-echarts-6.0.0.tgz?cache=0&sync_timestamp=1627907508392&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fvue-echarts%2Fdownload%2Fvue-echarts-6.0.0.tgz#480263fc6ed2125b886bb1b7f05bf9273edee552"
+  integrity sha1-SAJj/G7SEluIa7G38Fv5Jz7e5VI=
+  dependencies:
+    resize-detector "^0.3.0"
+    vue-demi "^0.11.2"
 
 vue-eslint-parser@^7.0.0:
   version "7.9.0"
@@ -11490,3 +11526,10 @@ yorkie@^2.0.0:
     is-ci "^1.0.10"
     normalize-path "^1.0.0"
     strip-indent "^2.0.0"
+
+zrender@5.1.1:
+  version "5.1.1"
+  resolved "https://registry.nlark.com/zrender/download/zrender-5.1.1.tgz#0515f4f8cc0f4742f02a6b8819550a6d13d64c5c"
+  integrity sha1-BRX0+MwPR0LwKmuIGVUKbRPWTFw=
+  dependencies:
+    tslib "2.0.3"

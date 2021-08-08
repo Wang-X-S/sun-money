@@ -6,6 +6,8 @@ import NotFound from '@/views/NotFound.vue'
 import EditLabel from '@/views/EditLabel.vue'
 import Statistics from '@/views/Statistics.vue'
 import EditTags from '@/views/EditTags.vue';
+import EchartsPage from '@/views/EchartsPage.vue';
+
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
@@ -33,6 +35,10 @@ const routes: Array<RouteConfig> = [
   {
     path:'/editTags',
     component:EditTags
+  },
+  {
+    path:'/echarts',
+    component:EchartsPage
   },
   {
     path:'*',

@@ -35,7 +35,6 @@
             <div class="label">支出</div>
             <div class="value">
               <span>￥{{this.totalExpense.toString()}}</span>
-
             </div>
           </div>
           <div></div>
@@ -317,7 +316,6 @@
       .select{
         color:#ffffff;
         option{
-
           color:black;
         }
       }
