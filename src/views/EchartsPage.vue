@@ -40,7 +40,8 @@
         </div>
       </div>
     </div>
-    <Chart/>
+    {{x}}
+<!--    <Chart/>-->
 <!--    {{groupTypeList}}-->
   </Layout>
 </template>
@@ -69,6 +70,10 @@
     id: string;
     name: string;
   }
+  type ChartContent={
+    name:string,
+    amount:number
+  }
   @Component({
     components: {Chart, Tab}
   })
@@ -96,6 +101,7 @@
       //     result.push(sortedRecordList[i])
       //   }
       // }
+      console.log(sortedRecordList);
       return sortedRecordList
     }
     get groupTypeList(){
@@ -107,6 +113,23 @@
       }
       return result
     }
+    get x(){
+      let array:ChartContent[]=[]
+      const result=this.groupTypeList.map(r=>({name:r.tags[0] ,amount:r.amount}))
+      console.log(result)
+      for(let i=0;i<result.length;i++) {
+        let index =  array.findIndex(item => {
+        return  item.name===result[i].name
+        })
+        if(index>=0){
+          array[index].amount+=result[i].amount
+        }else{
+          array.push(result[i])
+        }
+      }
+      return array
+    }
+
     get incomeAmount(){
       let total =0
       for(let i=0;i<this.groupList.length;i++){

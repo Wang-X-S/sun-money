@@ -32,7 +32,6 @@ const amusement=[
 ]as Tag[]
 const cate =[
   {id:'11',name:'美食'},
-
   {id:'13',name:'零食'},
   {id:'14',name:'奶茶'},
   {id:'15',name:'水果'},
