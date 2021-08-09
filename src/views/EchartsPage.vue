@@ -14,7 +14,7 @@
         <div class="month">
           <label>
             <select name="select" v-model="month">
-              <option v-for="m in months" :value="m" :key="m">{{m}}</option>
+              <option v-for="m in 12" :key="m" :value="m">{{beautifyMonth(m)}}</option>
             </select>
           </label>
           <span>月</span>
@@ -24,18 +24,18 @@
     <div class="typeData">
       <div class="top">
         <div class="wrapper">
-          <div class="expend">
+          <div class="expend" >
             {{expendAmount}}
           </div>
         </div>
         <div class="wrapper">
-          <div class="income">
-           {{incomeAmount}}
+          <div class="income" >
+           +{{incomeAmount}}
           </div>
         </div>
       </div>
       <div class="wrapper">
-        <div :class="{expend:this.incomeAmount<this.expendAmount,income:this.incomeAmount>this.expendAmount}">
+        <div :class="totalColor()">
           总计:{{incomeAmount+expendAmount}}
         </div>
       </div>
@@ -80,10 +80,18 @@
   })
   export default class EchartsPage extends Vue {
     year = window.sessionStorage.getItem('year') || dayjs().year().toString();
-    month = window.sessionStorage.getItem('month') || dayjs().month().toString();
+    month = window.sessionStorage.getItem('month') || dayjs().add(1,'month').month().toString();
     recordTypeList = recordTypeList;
     type='-'
 
+    totalColor(){
+      let expendNumber=-this.expendAmount
+      if(expendNumber>this.incomeAmount){
+        return 'expend'
+      }else{
+        return'income'
+      }
+    }
     get chartData(){
       let array:ChartContent[]=[]
       const result=this.groupTypeList.map(r=>({  value:r.amount,name:r.tags[0] }))
@@ -135,7 +143,7 @@
         },
         series: [
           {
-            name: '访问来源',
+            name: '使用情况',
             type: 'pie',
             radius: ['40%', '70%'],
             avoidLabelOverlap: false,
@@ -163,43 +171,6 @@
         ]
       };
     }
-    option = {
-      tooltip: {
-        trigger: 'item'
-      },
-      legend: {
-        top: '5%',
-        left: 'center'
-      },
-      series: [
-        {
-          name: '访问来源',
-          type: 'pie',
-          radius: ['40%', '70%'],
-          avoidLabelOverlap: false,
-          itemStyle: {
-            borderRadius: 10,
-            borderColor: '#fff',
-            borderWidth: 2
-          },
-          label: {
-            show: false,
-            position: 'center'
-          },
-          emphasis: {
-            label: {
-              show: true,
-              fontSize: '40',
-              fontWeight: 'bold'
-            }
-          },
-          labelLine: {
-            show: false
-          },
-          data: this.chartData
-        }
-      ]
-    };
     get groupTypeList(){
       let result =[]
       for(let i = 0;i<this.groupList.length;i++){
@@ -248,13 +219,14 @@
         result.push(month);
         month++;
       }
-
       return result;
+    }
+    beautifyMonth(m:number){
+      return m<10 ?'0'+m.toString() :m.toString()
     }
     @Watch('year')
     saveYear(year:string){
       window.sessionStorage.setItem('year',year)
-
     }
     @Watch('month')
     saveMonth(month:string){
@@ -329,12 +301,6 @@
       text-align: center;
       line-height:50px;
       font-size: 14px;
-    }
-
-    .top {
-      display: flex;
-      flex-direction: row;
-
       .expend {
         color: #91cc75;
       }
@@ -342,6 +308,13 @@
       .income {
         color: #ee6666
       }
+    }
+
+    .top {
+      display: flex;
+      flex-direction: row;
+
+
     }
 
 
